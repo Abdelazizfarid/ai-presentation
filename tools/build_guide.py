@@ -107,8 +107,41 @@ def item_id(it):
     return {'intro': 'intro', 'glossary': 'glossary', 'refs': 'references'}.get(it['kind'], 'misc')
 
 
+SENT_END = re.compile(r'(?<=[.؟!])\s+(?=\S)')
+BULLET_LABELS = {'EXPLANATION', 'EXAMPLE', 'DETAILS', None}
+
+
+def sentences(text):
+    parts = SENT_END.split(text.strip())
+    out = []
+    for p in parts:
+        if out and re.fullmatch(r'(\[R\d+\]\s*)+', p): out[-1] += ' ' + p      # keep [R1] with its sentence
+        elif out and len(p) < 12: out[-1] += ' ' + p                                # tiny fragment -> join
+        else: out.append(p)
+    return out
+
+
+def sentence_html(sent):
+    """one bullet; 'lead: A، و B، و C' becomes lead + nested bullets"""
+    m = re.match(r'^(.{6,}?):\s+(.+)$', sent)
+    if m and m.group(2).count('، و') >= 2:
+        items = [i.strip(' ،') for i in re.split(r'،\s*و(?=\s)', m.group(2)) if i.strip(' ،')]
+        items = [re.sub(r'^و\s+', '', i) for i in items]
+        return f'{inline(m.group(1))}:<ul>' + ''.join(f'<li>{inline(i)}</li>' for i in items) + '</ul>'
+    return inline(sent)
+
+
+def bullets(text):
+    sents = sentences(text)
+    if len(sents) == 1 and ':' not in sents[0]:
+        return f'<p>{inline(sents[0])}</p>'
+    return '<ul>' + ''.join(f'<li>{sentence_html(x)}</li>' for x in sents) + '</ul>'
+
+
 def render_content(e, label):
     if e['type'] == 'p':
+        if label in BULLET_LABELS and e.get('cls') != 'bold':
+            return bullets(e['text'])
         return f'<p>{inline(e["text"])}</p>'
     if e['type'] == 'h3':
         return f'<h3 dir="auto">{esc(e["text"])}</h3>'
@@ -220,6 +253,11 @@ h1.sec .ar{font-size:17px;color:var(--muted);font-weight:500;margin-left:14px;di
 .blk-takeaway p{font-weight:600}
 .blk ol{margin:0 0 12px;padding-inline-start:26px}
 .blk ol li{margin-bottom:6px}
+.blk ul{margin:0 0 14px;padding-inline-start:22px;list-style:none}
+.blk ul li{position:relative;margin-bottom:7px;padding-inline-start:4px}
+.blk ul li::before{content:'';position:absolute;inset-inline-start:-16px;top:.85em;width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.blk ul ul{margin:4px 0 2px;padding-inline-start:20px}
+.blk ul ul li::before{width:5px;height:5px;background:var(--teal-2);top:.9em}
 pre{background:var(--code);color:#F3F1EA;padding:16px 18px;border-radius:8px;overflow:auto;font-family:'IBM Plex Mono',monospace;font-size:13.5px;line-height:1.6;margin:8px 0 14px;text-align:left}
 .tbl{overflow:auto;margin:6px 0 14px}
 table{border-collapse:collapse;width:100%;font-size:15px;line-height:1.6}
