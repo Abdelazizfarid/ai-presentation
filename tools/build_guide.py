@@ -5,11 +5,17 @@ SRC = sys.argv[1] if len(sys.argv) > 1 else 'guide.json'
 OUT = sys.argv[2] if len(sys.argv) > 2 else 'index.html'
 pages = json.load(open(SRC))
 
-LABELS = {'EXPLANATION': 'الشرح', 'EXAMPLE': 'مثال', 'TAKEAWAY': 'الخلاصة', 'DETAILS': 'تفاصيل', 'STEPS': 'الخطوات',
+LABELS = {'EXPLANATION': 'الشرح', 'EXAMPLE': 'مثال تقني', 'REAL-LIFE EXAMPLE': 'مثال من الحياة', 'TAKEAWAY': 'الخلاصة', 'DETAILS': 'تفاصيل', 'STEPS': 'الخطوات',
           'COMPARISON': 'مقارنة', 'CODE': 'كود', 'DIAGRAM': 'رسم توضيحي'}
 SECTION_AR = {'INTRODUCTION': 'مقدمة', 'INTELLIGENCE': 'الذكاء', 'ADOPTION': 'الانتشار', 'MODELS & TOOLS': 'الـmodels والـtools',
               'PROMPT ENGINEERING': 'الـprompt engineering', 'AGENT WORKFLOWS': 'الـagent workflows', 'AUTOMATION PLATFORMS': 'منصات الـautomation',
               'RISK & ROLLOUT': 'المخاطر والتطبيق', 'CLAUDE CODE': 'Claude Code', 'OPEN AGENTS': 'الـopen agents', 'SOURCES': 'المصادر'}
+
+def item_id_of(it):
+    if it['kind'] == 'slide': return f"slide-{it['num']:02d}"
+    if it['kind'] == 'mcp': return it['num']
+    return {'intro': 'intro', 'glossary': 'glossary', 'refs': 'references'}.get(it['kind'], 'misc')
+
 
 # ---------------------------------------------------------------- assemble items
 items = []
@@ -76,6 +82,18 @@ for page in pages:
             if blk is None: new_block('DIAGRAM')
             blk['content'].append(dict(type='img', **l['diagram'])); last = None
 
+# real-life examples (content/real_examples.json: id -> Arabic text), inserted after EXAMPLE
+import os
+REAL = json.load(open('content/real_examples.json')) if os.path.exists('content/real_examples.json') else {}
+for it in items:
+    if it['kind'] not in ('slide', 'mcp'): continue
+    txt = REAL.get(item_id_of(it))
+    if not txt: continue
+    blk_new = dict(label='REAL-LIFE EXAMPLE', content=[dict(type='p', text=txt, cls='body')])
+    labels = [b['label'] for b in it['blocks']]
+    pos = labels.index('EXAMPLE') + 1 if 'EXAMPLE' in labels else (labels.index('TAKEAWAY') if 'TAKEAWAY' in labels else len(labels))
+    it['blocks'].insert(pos, blk_new)
+
 # references: "[Rn] Title" paragraph followed by a URL paragraph
 for it in items:
     if it['kind'] != 'refs': continue
@@ -108,7 +126,7 @@ def item_id(it):
 
 
 SENT_END = re.compile(r'(?<=[.؟!])\s+(?=\S)')
-BULLET_LABELS = {'EXPLANATION', 'EXAMPLE', 'DETAILS', None}
+BULLET_LABELS = {'EXPLANATION', 'EXAMPLE', 'REAL-LIFE EXAMPLE', 'DETAILS', None}
 
 
 def sentences(text):
@@ -167,7 +185,7 @@ def render_block(b):
         body += [render_content(e, label) for e in b['content'] if e['type'] != 'p']
     else:
         body = [render_content(e, label) for e in b['content']]
-    cls = 'blk' + (f' blk-{label.lower()}' if label else '')
+    cls = 'blk' + (f' blk-{label.lower().replace(" ", "-")}' if label else '')
     head = f'<div class="lbl"><span class="en">{esc(label)}</span><span class="ar">{LABELS.get(label, "")}</span></div>' if label else ''
     return f'<div class="{cls}">{head}{"".join(body)}</div>'
 
@@ -249,6 +267,8 @@ h1.sec .ar{font-size:17px;color:var(--muted);font-weight:500;margin-left:14px;di
 .lbl .en{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;color:var(--teal);font-weight:600}
 .lbl .ar{font-size:14px;color:var(--muted);font-weight:500}
 .blk p{margin:0 0 12px}
+.blk-real-life-example{background:#FBF4EE;border-inline-start:4px solid var(--accent);padding:14px 18px 4px;border-radius:6px}
+.blk-real-life-example .lbl .en{color:var(--accent)}
 .blk-takeaway{background:var(--tint);border-inline-start:4px solid var(--teal);padding:14px 18px 6px;border-radius:6px}
 .blk-takeaway p{font-weight:600}
 .blk ol{margin:0 0 12px;padding-inline-start:26px}
