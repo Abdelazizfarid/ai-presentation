@@ -782,173 +782,6 @@ pre .k{ color:#FB923C; }
   <div class="pagenum">28</div>
 </section>
 <section class="slide divider">
-  <div class="num">07</div>
-  <h1>Risk</h1>
-  <p class="d-sub">The productivity numbers are real. So are the stability and security numbers. Both are in the same datasets.</p>
-  <div class="rule"></div>
-</section>
-
-<!-- 19 DORA -->
-<section class="slide">
-  <div class="topbar"><span>Risk</span><span class="sec">07 · The verification tax</span></div>
-  <h2>AI is an amplifier, not an accelerator</h2>
-  <p class="deck-sub">DORA's finding, from qualitative analysis of enterprise software engineers alongside their survey data, is that the impact on the software lifecycle is a series of trade-offs rather than a straight-line improvement.</p>
-  <div class="body">
-    <div class="grid3" style="margin-bottom:24px;">
-      <div class="card"><span class="tag">What speeds up</span><h3>Creation</h3><p>AI reliably accelerates initial code generation and reduces the friction of starting a new task. Over 80% of professionals in the DORA data believe it increased their productivity.</p></div>
-      <div class="card"><span class="tag">What absorbs it</span><h3>Verification</h3><p>The time saved in creation is frequently re-allocated to auditing and verifying the output. The work does not disappear; it moves downstream to review.</p></div>
-      <div class="card" style="border-color:var(--accent);"><span class="tag">The result</span><h3>Both directions at once</h3><p>Higher AI adoption is associated with an increase in software delivery throughput <b>and</b> an increase in delivery instability. More code, moving faster, into pipelines and review gates built for less of it.</p></div>
-    </div>
-    <div class="dark-panel"><h3>Why this matters for a small team</h3><p>An amplifier multiplies whatever is already there. Strong foundations — tests, CI, review discipline, observability — get multiplied. So do weak ones. DORA's ROI work makes the same point: the return depends on <b style="color:#fff">organisational systems, not on which tool you bought</b>.</p></div>
-  </div>
-  <div class="pagenum">30</div>
-</section>
-
-<!-- 20 TELEMETRY -->
-<section class="slide">
-  <div class="topbar"><span>Risk</span><span class="sec">07 · Delivery telemetry</span></div>
-  <h2>"Acceleration whiplash" — what the telemetry shows</h2>
-  <p class="deck-sub">Faros telemetry across roughly 22,000 developers in 2026, compared against their 2025 dataset. Throughput gains at the top; compounding quality costs at every stage below.</p>
-  <div class="body">
-    <div class="grid4" style="margin-bottom:26px;">
-      <div class="stat"><div class="n">+441<span class="u">%</span></div><div class="l">median time a pull request spends in review, against +91% in the prior dataset</div></div>
-      <div class="stat"><div class="n">+51<span class="u">%</span></div><div class="l">pull request size — driving cognitive overload and longer review cycles</div></div>
-      <div class="stat"><div class="n">+54<span class="u">%</span></div><div class="l">bugs per developer, against +9% in the prior dataset</div></div>
-      <div class="stat"><div class="n">+243<span class="u">%</span></div><div class="l">incidents per pull request — the odds of a production incident per merge more than tripled</div></div>
-    </div>
-    <div class="callout" style="margin-bottom:16px;"><b>31% more pull requests are now merging with no review at all.</b> That single number is the mechanism behind most of the others, and it is the one we can control directly.</div>
-    <p style="font-size:13px; color:var(--muted); line-height:1.5;">Read these as a warning about process, not about the tools. The teams that avoided this pattern did so by capping PR size, keeping a human gate on every merge, and instrumenting the pipeline before scaling usage — not by using AI less.</p>
-  </div>
-  <div class="pagenum">31</div>
-</section>
-
-<!-- 21 SECURITY -->
-<section class="slide">
-  <div class="topbar"><span>Risk</span><span class="sec">07 · Security</span></div>
-  <h2>Security is the sharp edge</h2>
-  <p class="deck-sub">This is the area where the research is most consistent and least flattering, and where the numbers have not improved despite vendor claims.</p>
-  <div class="body">
-    <div class="grid2" style="gap:26px;">
-      <div>
-        <ul class="bullets">
-          <li><b>Veracode tested over 100 models</b> on security-sensitive tasks: 45% of generated samples introduced OWASP Top 10 vulnerabilities. The pass rate held flat near 55% across testing cycles from 2025 into early 2026.</li>
-          <li><b>86% of samples failed to defend against cross-site scripting; 88% were vulnerable to log injection.</b> Java fared worst, at a 72% failure rate.</li>
-          <li><b>Georgia Tech's Vibe Security Radar</b> tracked CVEs directly attributable to AI coding tools: 6 in January 2026, 15 in February, 35 in March.</li>
-          <li><b>Across Fortune 50 enterprises</b>, AI-assisted developers committed at three to four times the rate of their peers and introduced security findings at roughly ten times the rate.</li>
-        </ul>
-      </div>
-      <div>
-        <div class="dark-panel" style="margin-bottom:16px;">
-          <h3>New attack surface: prompt injection</h3>
-          <p>CVE-2025-53773 showed hidden prompt injection in a pull request description leading to remote code execution through a coding assistant, rated 9.6. EchoLeak demonstrated data exfiltration through a Copilot integration. <b style="color:#fff">Any text an agent reads is untrusted input</b> — issues, PR descriptions, dependency READMEs, fetched web pages.</p>
-        </div>
-        <div class="card" style="border-color:var(--danger);">
-          <h3 style="color:var(--danger);">The dependency problem</h3>
-          <p>Agents add libraries casually, and they sometimes name packages that do not exist. Attackers register those names. Pin versions, verify provenance, and put software composition analysis in CI.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="pagenum">32</div>
-</section>
-
-<!-- 22 GUARDRAILS -->
-<section class="slide">
-  <div class="topbar"><span>Risk</span><span class="sec">07 · Guardrails</span></div>
-  <h2>Non-negotiables</h2>
-  <p class="deck-sub">Seven rules. They cost very little to adopt now and are extremely expensive to retrofit after an incident.</p>
-  <div class="body">
-    <div class="grid2" style="gap:18px 30px;">
-      <div class="num-item"><div class="idx">01</div><div class="txt"><h3>Human gate on every merge</h3><p>No PR merges unreviewed by a person, regardless of who or what wrote it. Cap PR size so the review is real rather than ceremonial.</p></div></div>
-      <div class="num-item"><div class="idx">02</div><div class="txt"><h3>Treat AI output as untrusted input</h3><p>SAST, DAST and SCA in CI on every AI-touched branch. Security-relevant paths — auth, payments, file handling, query construction — get a specialist read.</p></div></div>
-      <div class="num-item"><div class="idx">03</div><div class="txt"><h3>Dependency discipline</h3><p>Pin versions. Verify the package exists and is the one intended. Block new runtime dependencies without an explicit decision record.</p></div></div>
-      <div class="num-item"><div class="idx">04</div><div class="txt"><h3>Least-privilege agents</h3><p>Read-only, scoped credentials. Staging replicas, never production. Approval gates on shell, git push and any network call.</p></div></div>
-      <div class="num-item"><div class="idx">05</div><div class="txt"><h3>Secrets never enter context</h3><p>No .env files, no client credentials, no customer data in prompts. Scan for leaked secrets on every commit, not every release.</p></div></div>
-      <div class="num-item"><div class="idx">06</div><div class="txt"><h3>Label AI-assisted work</h3><p>A commit trailer or PR tag. Without it you cannot measure whether any of this is working, and you cannot audit after an incident.</p></div></div>
-      <div class="num-item" style="grid-column:span 2;"><div class="idx">07</div><div class="txt"><h3>Keep the skill</h3><p>Developers still have to be able to read, reason about and debug the code they ship. If someone cannot explain why a diff works, it does not merge — this is a competence requirement, not a policy preference, and it is the one that protects us in five years.</p></div></div>
-    </div>
-  </div>
-  <div class="pagenum">33</div>
-</section>
-
-<!-- 23 30/60/90 -->
-<section class="slide">
-  <div class="topbar"><span>Rollout</span><span class="sec">07 · Plan</span></div>
-  <h2>Our 30 / 60 / 90</h2>
-  <p class="deck-sub">Deliberately narrow. One harness, one workflow change at a time, measured before it is widened.</p>
-  <div class="body">
-    <div class="grid3" style="gap:20px;">
-      <div class="card"><span class="tag">First 30 days</span><h3>Baseline &amp; foundations</h3>
-        <ul class="bullets" style="margin-top:12px;">
-          <li style="font-size:13px;">Pick one primary harness and one model tier; give everyone the same setup.</li>
-          <li style="font-size:13px;">Write a real <code>AGENTS.md</code> for the three busiest repositories.</li>
-          <li style="font-size:13px;">Turn on SAST/SCA in CI and record today's DORA numbers as the baseline.</li>
-          <li style="font-size:13px;">Agree the guardrails on the previous slide in writing.</li>
-        </ul>
-      </div>
-      <div class="card"><span class="tag">Days 31 – 60</span><h3>Workflow</h3>
-        <ul class="bullets" style="margin-top:12px;">
-          <li style="font-size:13px;">Run one shipping feature fully spec-driven, end to end, and review how it went.</li>
-          <li style="font-size:13px;">Add hooks: lint and tests must pass before an agent reports done.</li>
-          <li style="font-size:13px;">Wire two MCP servers — code search and error tracking. Read-only.</li>
-          <li style="font-size:13px;">Start a shared skill pack for our house conventions.</li>
-        </ul>
-      </div>
-      <div class="card"><span class="tag">Days 61 – 90</span><h3>Scale &amp; review</h3>
-        <ul class="bullets" style="margin-top:12px;">
-          <li style="font-size:13px;">Parallel subagents on migrations, test backfill and review passes.</li>
-          <li style="font-size:13px;">Cost review: move high-volume loops to a cheaper or open-weight tier.</li>
-          <li style="font-size:13px;">Compare against the day-zero baseline. If stability dropped, fix process before widening.</li>
-          <li style="font-size:13px;">Write down what actually worked. It will be different from this deck.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="pagenum">34</div>
-</section>
-
-<!-- 24 METRICS -->
-<section class="slide">
-  <div class="topbar"><span>Rollout</span><span class="sec">07 · Measurement</span></div>
-  <h2>Measure these. Never measure lines of code.</h2>
-  <p class="deck-sub">With AI writing a large share of committed code, volume metrics became actively misleading. These five groups tell you whether the change is working.</p>
-  <div class="body">
-    <table>
-      <thead><tr><th style="width:18%">Dimension</th><th style="width:36%">Metric</th><th>What a bad trend means</th></tr></thead>
-      <tbody>
-        <tr><td class="name">Throughput</td><td>Lead time for changes · deployment frequency</td><td>If these do not improve, the tooling is not paying for itself.</td></tr>
-        <tr><td class="name">Stability</td><td>Change failure rate · MTTR · incidents per PR</td><td>The single clearest early-warning signal. If it moves, stop widening adoption and fix the gate.</td></tr>
-        <tr><td class="name">Review health</td><td>PR size · time in review · % merged with no review</td><td>Rising PR size plus rising unreviewed merges is the whiplash pattern forming.</td></tr>
-        <tr><td class="name">Quality</td><td>Bugs per developer · security findings per AI-touched PR</td><td>Security findings should be found in CI, not in production. A rise here is fine if the pipeline caught them.</td></tr>
-        <tr><td class="name">Cost</td><td>Spend per merged PR · tokens per completed task</td><td>Agent loops are where budgets disappear quietly. Caching and tier choice move this dramatically.</td></tr>
-      </tbody>
-    </table>
-    <div class="callout" style="margin-top:20px;">Take the baseline <b>before</b> the rollout, not after. Without a day-zero snapshot, every argument about whether this is working becomes an argument about vibes.</div>
-  </div>
-  <div class="pagenum">35</div>
-</section>
-
-<!-- 25 SKILLS -->
-<section class="slide">
-  <div class="topbar"><span>Rollout</span><span class="sec">07 · People</span></div>
-  <h2>What each developer should be able to do by December</h2>
-  <p class="deck-sub">These are the skills that transfer between tools. None of them depend on which vendor wins.</p>
-  <div class="body">
-    <div class="grid3" style="gap:18px;">
-      <div class="card"><h3>Write a context file that works</h3><p>An AGENTS.md where every line traces back to a real failure — not a copied template.</p></div>
-      <div class="card"><h3>Write a spec an agent can execute</h3><p>Unambiguous acceptance criteria, atomic tasks, an explicit verification step.</p></div>
-      <div class="card"><h3>Build one skill and one MCP server</h3><p>Enough to understand how the agent actually reaches our systems, and where the boundaries are.</p></div>
-      <div class="card"><h3>Review AI code adversarially</h3><p>Look for the plausible-but-wrong. Check inputs, permissions, error paths and dependencies first.</p></div>
-      <div class="card"><h3>Run several agents without collisions</h3><p>Worktrees, isolated scopes, clean handoffs. This is where the throughput gain actually comes from.</p></div>
-      <div class="card" style="border-color:var(--accent);"><h3>Know when not to use one</h3><p>Migrations, cryptography, anything touching money or patient data, and anything you could not debug yourself at 2am.</p></div>
-    </div>
-    <div class="callout" style="margin-top:22px;">DORA's research with students found something worth borrowing: the people who benefit most set <b>their own guardrails</b>, treating AI as a support tool rather than a replacement for understanding. Dependence is a real risk and it is self-inflicted.</div>
-  </div>
-  <div class="pagenum">36</div>
-</section>
-
-<!-- 26 DIVIDER 05 -->
-<section class="slide divider">
   <div class="num">08</div>
   <h1>Claude Code<br>in practice</h1>
   <p class="d-sub">What the tool actually is, what it can do for the business, how teams put it to work, and what it costs to control.</p>
@@ -971,7 +804,7 @@ pre .k{ color:#FB923C; }
       <p>The same engine runs in the terminal, in VS Code and JetBrains, in a desktop app, in the browser, on a phone, inside Slack, and inside GitHub or GitLab pipelines. A project's configuration is written once and applies on every one of them, so a team is not maintaining five different setups.</p>
     </div>
   </div>
-  <div class="pagenum">38</div>
+  <div class="pagenum">30</div>
 </section>
 
 <!-- 28 WHAT IT DOES -->
@@ -992,7 +825,7 @@ pre .k{ color:#FB923C; }
     </div>
     <div class="callout">Notice what is not on this list: <b>deciding what to build.</b> Every item here is execution. The scarce judgement — what deserves building at all — stays exactly where it was.</div>
   </div>
-  <div class="pagenum">39</div>
+  <div class="pagenum">31</div>
 </section>
 
 <!-- 29 HOW A TASK RUNS -->
@@ -1017,7 +850,7 @@ pre .k{ color:#FB923C; }
       <div class="card"><h3>And the one resource that runs out</h3><p>Each session has a working memory that holds the conversation and everything read into it. Quality degrades as it fills. Good operators reset between unrelated tasks; poor ones let one session sprawl across five topics and then wonder why the output got worse. This is a training issue, not a tooling one.</p></div>
     </div>
   </div>
-  <div class="pagenum">40</div>
+  <div class="pagenum">32</div>
 </section>
 
 <!-- 30 FEATURES -->
@@ -1039,7 +872,7 @@ pre .k{ color:#FB923C; }
     </table>
     <div class="callout" style="margin-top:14px;">The order matters. Start with project memory; add each of the others only when a specific, repeated annoyance calls for it. Teams that configure everything up front mostly build things they never use.</div>
   </div>
-  <div class="pagenum">41</div>
+  <div class="pagenum">33</div>
 </section>
 
 <!-- 31 SKILLS A -->
@@ -1078,7 +911,7 @@ pre .k{ color:#FB923C; }
     </div>
     <div class="callout">Two things worth knowing commercially: skills follow the <b>Agent Skills open standard</b>, so a skill written with only the portable fields also works in Claude apps, the Claude Developer Platform, and Codex CLI — we are not writing lock-in. And Claude Code ships useful ones out of the box: <code>/code-review</code>, <code>/debug</code>, <code>/verify</code>, <code>/batch</code>, <code>/doctor</code>.</div>
   </div>
-  <div class="pagenum">42</div>
+  <div class="pagenum">34</div>
 </section>
 
 <!-- 32 SKILLS B -->
@@ -1112,7 +945,7 @@ pre .k{ color:#FB923C; }
     </div>
     <div class="callout"><b>One governance point for a security review:</b> a skill committed to a repository can grant itself broad tool access through <code>allowed-tools</code>, and that grant is not gated by trusting the workspace. Review the skills in any repository — including a client's — before running an agent inside it.</div>
   </div>
-  <div class="pagenum">43</div>
+  <div class="pagenum">35</div>
 </section>
 
 <!-- 33 MCP A -->
@@ -1136,7 +969,7 @@ pre .k{ color:#FB923C; }
     </table>
     <div class="callout" style="margin-top:14px;">When the same server name exists at more than one scope, the most specific wins: local over project over user. That lets one developer point a shared server at a different endpoint without editing the committed file.</div>
   </div>
-  <div class="pagenum">44</div>
+  <div class="pagenum">36</div>
 </section>
 
 <!-- 34 MCP B -->
@@ -1168,7 +1001,7 @@ pre .k{ color:#FB923C; }
       <div class="card" style="border-color:var(--danger);"><h3 style="color:var(--danger);">The rule that is not negotiable</h3><p>Everything an MCP tool returns is <b>untrusted input</b>. A ticket description, a log line or a web page can carry instructions aimed at the agent. Connect read-only, against staging replicas, with scoped credentials — never production write access.</p></div>
     </div>
   </div>
-  <div class="pagenum">45</div>
+  <div class="pagenum">37</div>
 </section>
 
 <!-- 35 WHERE VALUE LANDS -->
@@ -1189,7 +1022,7 @@ pre .k{ color:#FB923C; }
       </tbody>
     </table>
   </div>
-  <div class="pagenum">46</div>
+  <div class="pagenum">38</div>
 </section>
 
 <!-- 32 SCALE -->
@@ -1208,7 +1041,7 @@ pre .k{ color:#FB923C; }
       <div class="callout">Parallelism raises the ceiling on throughput and raises the stakes on review. Every guardrail on slide 42 becomes more important, not less, the moment a second agent starts working.</div>
     </div>
   </div>
-  <div class="pagenum">47</div>
+  <div class="pagenum">39</div>
 </section>
 
 <!-- 33 GOVERNANCE -->
@@ -1226,7 +1059,7 @@ pre .k{ color:#FB923C; }
       <div class="num-item"><div class="idx">06</div><div class="txt"><h3>Data handling</h3><p>Deployment options for regulated work, including enterprise arrangements where session data is not retained. This is the slide to bring to a client security review.</p></div></div>
     </div>
   </div>
-  <div class="pagenum">48</div>
+  <div class="pagenum">40</div>
 </section>
 
 <!-- 34 COST -->
@@ -1257,7 +1090,7 @@ pre .k{ color:#FB923C; }
     </div>
     <div class="callout">Track the number that matters: <b>spend per merged pull request</b>. Total spend rising while that number falls is a healthy signal. Total spend rising while it holds flat means we bought activity, not output.</div>
   </div>
-  <div class="pagenum">49</div>
+  <div class="pagenum">41</div>
 </section>
 
 <!-- 35 LIMITS -->
@@ -1274,7 +1107,7 @@ pre .k{ color:#FB923C; }
       <div class="num-item" style="grid-column:span 2;"><div class="idx">05</div><div class="txt"><h3>Treating it as a headcount substitute</h3><p>It accelerates execution. It does not decide what to build, own a client relationship, judge an architectural trade-off with commercial consequences, or carry accountability when something breaks. Teams that plan around it replacing people get the amplifier effect from section 04 pointed at their weakest process — and find out which one that was.</p></div></div>
     </div>
   </div>
-  <div class="pagenum">50</div>
+  <div class="pagenum">42</div>
 </section>
 
 <!-- 36 ADOPTION -->
@@ -1293,259 +1126,7 @@ pre .k{ color:#FB923C; }
       <div class="callout">Expect the first fortnight to look <b>slower</b>, not faster. People are learning to delegate, and the setup work has not paid back yet. Judging it at two weeks is how organisations abandon things that would have worked.</div>
     </div>
   </div>
-  <div class="pagenum">51</div>
+  <div class="pagenum">43</div>
 </section>
 
 <!-- 41 DIVIDER 06 -->
-<section class="slide divider">
-  <div class="num">09</div>
-  <h1>OpenClaw<br>&amp; Hermes</h1>
-  <p class="d-sub">The two open-source personal agent platforms that defined 2026. What they are, what they can do, and the security reality nobody puts in the README.</p>
-  <div class="rule"></div>
-</section>
-
-<!-- 42 THE CATEGORY -->
-<section class="slide tight">
-  <div class="topbar"><span>Open agents</span><span class="sec">09 · The category</span></div>
-  <h2>A different category from a coding agent</h2>
-  <p class="deck-sub">Claude Code works inside a repository on a task you gave it. These work across your whole life or business, continuously, reached through the chat apps you already use.</p>
-  <div class="body">
-    <div class="grid3" style="margin-bottom:20px;">
-      <div class="card"><span class="tag">Where they live</span><h3>In your messaging apps</h3><p>WhatsApp, Telegram, Slack, Discord, Signal, iMessage, Teams and more, all routed through one gateway process running on hardware you control.</p></div>
-      <div class="card"><span class="tag">What they touch</span><h3>Your actual systems</h3><p>Shell commands, the browser, email, calendar, files. Not a sandbox with a preview — the real thing, by design.</p></div>
-      <div class="card" style="border-color:var(--accent);"><span class="tag">When they run</span><h3>Without being asked</h3><p>A scheduler wakes them on an interval, and webhooks push events in. They act between your messages, not only in response to them.</p></div>
-    </div>
-    <div class="dark-panel">
-      <h3>Why a business briefing covers them at all</h3>
-      <p>Three reasons. They are the most-starred software on GitHub, so our developers are already reading about them. Clients in our market will ask for "an AI agent that runs my business over WhatsApp" and we need a credible answer. And the architecture they popularised — a persistent agent with memory, skills and scheduled autonomy — is the direction the whole field is moving, whoever ends up winning.</p>
-    </div>
-  </div>
-  <div class="pagenum">53</div>
-</section>
-
-<!-- 43 OPENCLAW WHAT -->
-<section class="slide tight">
-  <div class="topbar"><span>Open agents</span><span class="sec">09 · OpenClaw</span></div>
-  <h2>OpenClaw</h2>
-  <p class="deck-sub">An open-source, self-hosted AI assistant created by Peter Steinberger. Launched in late January 2026, renamed twice along the way — it began as Clawdbot, then Moltbot. MIT licensed.</p>
-  <div class="body">
-    <div class="grid4" style="margin-bottom:18px;">
-      <div class="stat"><div class="n">100<span class="u">k</span></div><div class="l">GitHub stars within its first week</div></div>
-      <div class="stat"><div class="n">346<span class="u">k+</span></div><div class="l">stars around five months later — reported as the most-starred repository on GitHub</div></div>
-      <div class="stat"><div class="n">10<span class="u">+</span></div><div class="l">chat platforms supported through channel plugins, from one gateway</div></div>
-      <div class="stat"><div class="n">MIT</div><div class="l">licence, fully self-hosted, with memory stored as plain markdown files on your own disk</div></div>
-    </div>
-    <div class="grid2" style="gap:22px;">
-      <div class="card"><h3>What it actually is</h3><p>A gateway. It sits between the chat apps you already use and an AI agent with access to your machine. You message it like a person; it runs shell commands, drives a browser, reads and writes files, handles email and calendar, and reports back in the same thread. Native iOS and Android apps pair to your own gateway, with remote approval for actions.</p></div>
-      <div class="card"><h3>What made it famous</h3><p>A developer had it negotiate roughly $4,200 off a car purchase by managing the dealer email thread over several days. That story — an agent doing multi-day commercial work unsupervised — is what moved this category from curiosity to something businesses started asking about.</p></div>
-    </div>
-  </div>
-  <div class="pagenum">54</div>
-</section>
-
-<!-- 44 OPENCLAW HOW -->
-<section class="slide tight">
-  <div class="topbar"><span>Open agents</span><span class="sec">09 · OpenClaw</span></div>
-  <h2>How OpenClaw is put together</h2>
-  <p class="deck-sub">Worth understanding in outline, because it is the reference implementation of nearly every pattern in production agent systems today — including the ones Claude Code uses.</p>
-  <div class="body">
-    <div class="grid2" style="gap:18px 26px;">
-      <div class="num-item"><div class="idx">01</div><div class="txt"><h3>The gateway</h3><p>One process owns the connections to every chat channel, routes messages to the agent, and manages sessions. Channels are plugins, so adding WhatsApp or Teams is configuration rather than code.</p></div></div>
-      <div class="num-item"><div class="idx">02</div><div class="txt"><h3>Memory as files</h3><p>Context and memory are markdown on local disk rather than a hosted database. That is the whole ownership argument: nothing leaves the machine except the model calls you configure.</p></div></div>
-      <div class="num-item"><div class="idx">03</div><div class="txt"><h3>Tools and skills</h3><p>A portable skill format the community extends, plus a plugin marketplace with curation and trust guidance. The same idea as Claude Code skills, in a different ecosystem.</p></div></div>
-      <div class="num-item"><div class="idx">04</div><div class="txt"><h3>The heartbeat</h3><p>A scheduler wakes the agent at a configurable interval so it can act unprompted, alongside cron jobs and inbound webhooks. This is what makes it feel like staff rather than software.</p></div></div>
-      <div class="num-item"><div class="idx">05</div><div class="txt"><h3>Model-agnostic</h3><p>Configurable providers with failover, including local model services. It can drive Claude, or an open-weight model on your own hardware, or several with routing between them.</p></div></div>
-      <div class="num-item"><div class="idx">06</div><div class="txt"><h3>Full system access — by design</h3><p>The project states it plainly: read and write files, run shell commands, execute scripts, with full access or sandboxed as your choice. Most people leave the default. Hold that thought for slide 68.</p></div></div>
-    </div>
-  </div>
-  <div class="pagenum">55</div>
-</section>
-
-<!-- 45 HERMES WHAT -->
-<section class="slide tight">
-  <div class="topbar"><span>Open agents</span><span class="sec">09 · Hermes</span></div>
-  <h2>Hermes Agent</h2>
-  <p class="deck-sub">Built by Nous Research — the lab behind the Hermes, Nomos and Psyche model families — and released in February 2026 under the MIT licence. Same category as OpenClaw, different central idea.</p>
-  <div class="body">
-    <div class="grid4" style="margin-bottom:18px;">
-      <div class="stat"><div class="n">140<span class="u">k</span></div><div class="l">GitHub stars in under three months</div></div>
-      <div class="stat"><div class="n">224<span class="u">bn</span></div><div class="l">tokens per day in a May 2026 OpenRouter snapshot, against OpenClaw's 186 billion — briefly the most-used agent in the world by that measure</div></div>
-      <div class="stat"><div class="n">15<span class="u">+</span></div><div class="l">messaging platforms from a single gateway, plus desktop apps for macOS, Windows and Linux</div></div>
-      <div class="stat"><div class="n">Any</div><div class="l">model provider — its own portal, OpenRouter, OpenAI, or any endpoint you point it at</div></div>
-    </div>
-    <div class="grid2" style="gap:22px;">
-      <div class="card"><h3>The pitch</h3><p>"The agent that grows with you." It runs on your server, persists what it learns across sessions, and is meant to be measurably more useful after a month of work than on day one. Development has been fast — several hundred merged contributions in the first three months, with releases roughly monthly.</p></div>
-      <div class="card"><h3>The unusual part</h3><p>It doubles as research infrastructure. Beyond automating tasks it can generate tool-use trajectories in parallel with checkpointing, and export them for fine-tuning and reinforcement-learning experiments. That is a real differentiator if a team ever wants to train on its own workflows.</p></div>
-    </div>
-  </div>
-  <div class="pagenum">56</div>
-</section>
-
-<!-- 46 HERMES LOOP -->
-<section class="slide tight">
-  <div class="topbar"><span>Open agents</span><span class="sec">09 · Hermes</span></div>
-  <h2>The self-improvement loop, and why it is the interesting claim</h2>
-  <p class="deck-sub">Most agent frameworks treat every task as a blank slate. Hermes is built around not doing that.</p>
-  <div class="body">
-    <div class="flowline" style="margin-bottom:20px;">
-      <div class="step"><span class="s">01</span><h4>Do the work</h4><p>Execute the task through whatever tools and channels are connected.</p></div>
-      <div class="arrow">→</div>
-      <div class="step"><span class="s">02</span><h4>Record outcomes</h4><p>Persist what worked and what failed, rather than discarding it at the end of the session.</p></div>
-      <div class="arrow">→</div>
-      <div class="step"><span class="s">03</span><h4>Find the pattern</h4><p>Curate that memory and model the user, so repeated situations are recognised as repeats.</p></div>
-      <div class="arrow">→</div>
-      <div class="step"><span class="s">04</span><h4>Write a skill</h4><p>Generate a reusable skill from the pattern, so next time the procedure already exists.</p></div>
-    </div>
-    <div class="grid2" style="gap:22px;">
-      <div class="card" style="border-color:var(--accent);"><h3>Why this matters strategically</h3><p>It is the same insight behind everything in section 05: the compounding value is not in the model, it is in the accumulated, written-down knowledge of how <i>this</i> organisation works. Hermes tries to accumulate it automatically. Claude Code has you write it deliberately, which is slower but auditable — you can read, review and version what it believes.</p></div>
-      <div class="card"><h3>The honest caveat</h3><p>Independent reviewers report real constraints: tight memory limits, a context floor, and overhead from scheduled prompting. Automatic self-improvement is a genuinely hard problem and the claim is ahead of the evidence. Treat it as a promising direction, not a delivered capability.</p></div>
-    </div>
-  </div>
-  <div class="pagenum">57</div>
-</section>
-
-<!-- 47 COMPARISON -->
-<section class="slide tight denser">
-  <div class="topbar"><span>Open agents</span><span class="sec">09 · Side by side</span></div>
-  <h2>Three tools, three different jobs</h2>
-  <p class="deck-sub">They are not really competitors. Confusing them is how a business ends up with the wrong tool holding the wrong keys.</p>
-  <div class="body">
-    <table>
-      <thead><tr><th style="width:16%"></th><th style="width:28%">Claude Code</th><th style="width:28%">OpenClaw</th><th>Hermes Agent</th></tr></thead>
-      <tbody>
-        <tr><td class="name">Built for</td><td>Software work inside a repository, supervised, producing reviewable pull requests</td><td>Personal and operational life admin across your systems, reached from chat</td><td>The same territory, with an emphasis on learning and on research workflows</td></tr>
-        <tr><td class="name">Who supplies it</td><td>Anthropic, commercial product with support and enterprise terms</td><td>Community project, MIT, self-hosted, no vendor to call</td><td>Nous Research, MIT, self-hosted, no vendor to call</td></tr>
-        <tr><td class="name">Model</td><td>Anthropic models</td><td>Any provider, with failover and local options</td><td>Any provider or endpoint</td></tr>
-        <tr><td class="name">Governance</td><td>Permission modes, sandboxing, mandated settings, spend caps, usage analytics, enterprise data terms</td><td>Yours to build. The defaults favour capability over containment</td><td>Yours to build, same as OpenClaw</td></tr>
-        <tr><td class="name">Fit for client work</td><td class="name" style="color:var(--green);">Yes — this is what it is for</td><td class="name" style="color:var(--danger);">No — not with client data or credentials</td><td class="name" style="color:var(--danger);">No — same reasoning</td></tr>
-        <tr><td class="name">Fit for us</td><td>Primary tool for all delivery work</td><td>Internal ops experiments on an isolated host, under the conditions on slide 69</td><td>Same, plus a look at the training-data tooling if we ever go that way</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="pagenum">58</div>
-</section>
-
-<!-- 48 SECURITY -->
-<section class="slide tight">
-  <div class="topbar"><span>Open agents</span><span class="sec">09 · The security reality</span></div>
-  <h2>Read this slide before anyone installs anything</h2>
-  <p class="deck-sub">This is not criticism of either project. It is the shape of any agent that combines three things: access to private data, ingestion of untrusted content, and the ability to act outward. That combination turns prompt injection from a prompt-quality issue into an operational security problem.</p>
-  <div class="body">
-    <div class="grid2" style="gap:26px;">
-      <div>
-        <h3 style="font-size:13px; text-transform:uppercase; letter-spacing:.1em; color:var(--danger); margin-bottom:11px;">What has already happened</h3>
-        <ul class="bullets">
-          <li><b>January 2026:</b> researchers at Giskard exploited a live deployment, showing paths to data exfiltration and account takeover from ordinary misconfiguration.</li>
-          <li><b>A disclosed vulnerability rated 8.8</b> worked like this: a crafted email asked the agent to render a link preview, and the preview request leaked the session to an attacker's domain. Further issues followed in February involving the shell capability.</li>
-          <li><b>Internet-exposed instances</b> were probed within minutes of coming online, according to Bitsight's research — and the more capable attackers ignored the AI layer entirely and went for the exposed admin surface.</li>
-          <li><b>Attacks seen in the wild:</b> CrowdStrike documented an injection attempt to drain crypto wallets, planted in a public post on a social network built for agents to read.</li>
-        </ul>
-      </div>
-      <div>
-        <div class="dark-panel" style="margin-bottom:14px;">
-          <h3>Why patching does not solve it</h3>
-          <p>Indirect injection means the attacker never talks to your agent. They plant instructions in something it will read later — an email signature, a calendar invite, an issue, a web page. When the agent reads it, those instructions land in the same context as your real request, and the model has no reliable way to tell them apart. <b style="color:#fff">The project's own security policy lists prompt injection as out of scope for vulnerability reports</b>, which is the industry norm — and means the mitigation is entirely yours.</p>
-        </div>
-        <div class="callout"><b>Microsoft's published guidance is blunt:</b> do not run it with your primary work or personal accounts, and do not run it on a device holding sensitive data. That is the correct starting position for us too.</div>
-      </div>
-    </div>
-  </div>
-  <div class="pagenum">59</div>
-</section>
-
-<!-- 49 OUR POSITION -->
-<section class="slide tight">
-  <div class="topbar"><span>Open agents</span><span class="sec">09 · Our position</span></div>
-  <h2>Where we land</h2>
-  <p class="deck-sub">Interesting, worth understanding, and not going anywhere near a client. Both statements are true at once.</p>
-  <div class="body">
-    <div class="grid2" style="gap:26px; margin-bottom:16px;">
-      <div>
-        <h3 style="font-size:13px; text-transform:uppercase; letter-spacing:.1em; color:var(--green); margin-bottom:11px;">Acceptable</h3>
-        <ul class="bullets check">
-          <li><b>A dedicated, isolated host</b> — not anyone's working laptop, not a server holding client work.</li>
-          <li><b>Dedicated accounts</b> created for it, with no access to company email, drives or repositories.</li>
-          <li><b>Internal-only automation</b>: our own reminders, our own reports, our own internal tooling.</li>
-          <li><b>Never reachable from the internet.</b> No exposed control interface, no port forwarding, authentication on by default.</li>
-          <li><b>Approval gates on actions</b>, and every inbound message treated as untrusted.</li>
-        </ul>
-      </div>
-      <div>
-        <h3 style="font-size:13px; text-transform:uppercase; letter-spacing:.1em; color:var(--danger); margin-bottom:11px;">Not acceptable</h3>
-        <ul class="bullets cross">
-          <li><b>Any client data, ever</b> — including a client's email thread, ticket system or documents.</li>
-          <li><b>Production credentials</b> of ours or anyone else's, in any form, under any framing.</li>
-          <li><b>Selling it as a deliverable</b> to a client who wants "an AI agent on WhatsApp". We can build that on governed infrastructure; we cannot hand over a self-hosted agent with system access and walk away.</li>
-          <li><b>Running it on the machine</b> where delivery work happens.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="callout">The commercial angle is real and worth naming: clients in our market <b>will</b> ask for this. Being the firm that can explain exactly why the naive version is dangerous — and then deliver a governed version instead — is a stronger position than either refusing outright or saying yes and finding out.</div>
-  </div>
-  <div class="pagenum">60</div>
-</section>
-
-<!-- 50 SOURCES -->
-<section class="slide tight">
-  <div class="topbar"><span>Appendix</span><span class="sec">Sources</span></div>
-  <h2>Sources &amp; where to keep watching</h2>
-  <p class="deck-sub">Everything in this deck traces to the following. The first column is worth a standing bookmark.</p>
-  <div class="body">
-    <div class="grid3" style="gap:26px;">
-      <div>
-        <h3 style="font-size:12px; text-transform:uppercase; letter-spacing:.12em; color:var(--accent); margin-bottom:12px;">Standing references</h3>
-        <ul class="linklist">
-          <li><b>Claude Code documentation</b> <span>— source for section 05</span><br><span class="u">code.claude.com/docs</span></li>
-          <li><b>AI Coding Landscape</b> <span>— model, agent and benchmark tracker, updated monthly</span><br><span class="u">cleverhack.com/ai-coding-landscape</span></li>
-          <li><b>Artificial Analysis</b> <span>— independent model and coding-agent indices</span><br><span class="u">artificialanalysis.ai</span></li>
-          <li><b>Agent Skills standard</b><br><span class="u">agentskills.io</span></li>
-          <li><b>AGENTS.md</b> <span>— the open context-file format</span><br><span class="u">agents.md</span></li>
-        </ul>
-      </div>
-      <div>
-        <h3 style="font-size:12px; text-transform:uppercase; letter-spacing:.12em; color:var(--accent); margin-bottom:12px;">Research &amp; surveys</h3>
-        <ul class="linklist">
-          <li><b>DORA</b> <span>— State of AI-assisted Software Development, and the 2026 ROI follow-up</span><br><span class="u">dora.dev/insights</span></li>
-          <li><b>Faros</b> <span>— 2026 delivery telemetry across ~22,000 developers</span><br><span class="u">faros.ai/blog</span></li>
-          <li><b>Stack Overflow Developer Survey 2025</b> <span>— adoption and trust</span><br><span class="u">survey.stackoverflow.co/2025</span></li>
-          <li><b>JetBrains AI Pulse 2026</b> <span>— tool adoption and satisfaction</span></li>
-          <li><b>MSR 2026</b> <span>— empirical study of 466 projects using agent context files</span></li>
-        </ul>
-      </div>
-      <div>
-        <h3 style="font-size:12px; text-transform:uppercase; letter-spacing:.12em; color:var(--accent); margin-bottom:12px;">Security &amp; open agents</h3>
-        <ul class="linklist">
-          <li><b>Veracode</b> <span>— AI-generated code security, March 2026 update</span><br><span class="u">veracode.com/blog</span></li>
-          <li><b>Cloud Security Alliance</b> <span>— AI code vulnerability surge, April 2026</span></li>
-          <li><b>Georgia Tech SSLab</b> <span>— Vibe Security Radar, CVEs traced to AI coding tools</span></li>
-          <li><b>OpenClaw</b><br><span class="u">openclaw.ai · docs.openclaw.ai</span></li>
-          <li><b>Hermes Agent</b> <span>— Nous Research</span><br><span class="u">hermes-agent.org</span></li>
-          <li><b>Agent security research</b> <span>— Giskard, Bitsight, CrowdStrike, Microsoft Security</span></li>
-          <li><b>Automation platforms</b> <span>— confirm pricing before quoting</span><br><span class="u">zapier.com · make.com · n8n.io/pricing</span></li>
-        </ul>
-      </div>
-    </div>
-    <div class="callout" style="margin-top:18px;">Figures from vendor launch materials are self-reported. Where a claim supports a recommendation in this deck, it is backed by an independent survey, an academic study, or third-party telemetry.</div>
-  </div>
-  <div class="pagenum">61</div>
-</section>
-
-<script>
-(function () {
-  var W = 1280, GUTTER = 28;
-  var supportsZoom = window.CSS && CSS.supports && CSS.supports('zoom', '0.5');
-  if (!supportsZoom) {
-    document.querySelectorAll('.slide').forEach(function (s) { s.classList.add('no-zoom-support'); });
-  }
-  function fit() {
-    var w = document.documentElement.clientWidth;
-    var z = Math.min(1.5, Math.max(0.18, (w - GUTTER) / W));
-    document.documentElement.style.setProperty('--zoom', z);
-  }
-  fit();
-  window.addEventListener('resize', fit);
-  window.addEventListener('orientationchange', fit);
-})();
-</script>
-</body>
-</html>

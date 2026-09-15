@@ -17,7 +17,7 @@ def item_id_of(it):
     return {'intro': 'intro', 'glossary': 'glossary', 'refs': 'references'}.get(it['kind'], 'misc')
 
 
-SKIP_SLIDES = {13, 16, 26, 27, 28, 29, 35, 36, 37}  # removed from the deck too
+SKIP_SLIDES = {13, 16, 26, 27, 28, 29, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70}  # removed from the deck too
 
 # ---------------------------------------------------------------- assemble items
 items = []
@@ -56,7 +56,7 @@ for page in pages:
             elif l['text'].startswith('READING GUIDE'): new_item('intro', section='READING GUIDE', kicker=l['text'])
             elif l['text'].startswith('QUICK REFERENCE'):
                 if not (cur and cur['kind'] == 'glossary'): new_item('glossary', section='GLOSSARY', kicker=l['text'])
-            elif l['text'].startswith('SOURCES'): new_item('refs', section='SOURCES', kicker=l['text'])
+            elif l['text'].startswith('SOURCES'): cur = dict(kind='skip', title='', blocks=[]); blk = None; last = None; continue
             else: new_item('misc', section=l['text'], kicker=l['text'])
             last = None
         elif c == 'title':
@@ -135,7 +135,7 @@ for it in items:
     for b in it['blocks']:
         for e in b['content']:
             if e['type'] == 'p' and 'independently verified' in e['text']:
-                e['text'] = 'نطاق التحقق: الشرح مبني على الـdeck المرفقة. آليات الـMCP وبعض تفاصيل الـproducts اتراجعت بمصادر رسمية، بروابط [R1] إلى [R11] جنب الفكرة. أسماء الـmodels والتواريخ والأسعار والأرقام اللي ماقدرناش نتأكد منها اتشالت من الشرح، والفكرة نفسها فضلت زي ما هي.'
+                e['text'] = 'نطاق التحقق: الشرح مبني على الـdeck المرفقة. آليات الـMCP وبعض تفاصيل الـproducts اتراجعت بمصادر رسمية، أسماء الـmodels والتواريخ والأسعار والأرقام اللي ماقدرناش نتأكد منها اتشالت من الشرح، والفكرة نفسها فضلت زي ما هي.'
 
 # references: "[Rn] Title" paragraph followed by a URL paragraph
 for it in items:
@@ -156,7 +156,7 @@ def esc(s): return html.escape(s, quote=False)
 
 def inline(text):
     t = esc(text).replace('».»', '».')
-    t = re.sub(r'\[R(\d+)\]', r'<a class="ref" href="#ref-R\1">[R\1]</a>', t)
+    t = re.sub(r'\s*\[R\d+\]', '', t)
     t = re.sub(r'\b(M(?:0[1-9]|1[0-4]))\b', r'<a class="xref" href="#\1">\1</a>', t)
     t = re.sub(r'\b[Ss]lide (\d{1,2})\b', lambda m: f'<a class="xref" href="#slide-{int(m.group(1)):02d}">{m.group(0)}</a>', t)
     return t
@@ -256,7 +256,7 @@ for s in sections:
         num = f'{it["num"]:02d}' if it['kind'] == 'slide' else it['num']
         nav.append(f'<li><a href="#{item_id(it)}"><b>{num}</b> {esc(it["title"])}</a></li>')
     nav.append('</ul></details>')
-nav.append('<a class="toc-top" href="#glossary">Glossary · مصطلحات</a><a class="toc-top" href="#references">References · المصادر</a>')
+nav.append('<a class="toc-top" href="#glossary">Glossary · مصطلحات</a>')
 nav.append('<a class="toc-top ext" href="presentation.html" target="_blank">افتح الـpresentation ↗</a></nav>')
 
 # ---------------------------------------------------------------- page
