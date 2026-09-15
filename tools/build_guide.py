@@ -17,7 +17,7 @@ def item_id_of(it):
     return {'intro': 'intro', 'glossary': 'glossary', 'refs': 'references'}.get(it['kind'], 'misc')
 
 
-SKIP_SLIDES = {13, 16, 26, 27, 28, 29, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70}  # removed from the deck too
+SKIP_SLIDES = {13, 16, 26, 27, 28, 29, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 48, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70}  # removed from the deck too
 
 # ---------------------------------------------------------------- assemble items
 items = []
