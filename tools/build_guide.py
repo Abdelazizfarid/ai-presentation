@@ -112,6 +112,14 @@ for it in items:
             pos = labels.index('EXPLANATION') + 1 if 'EXPLANATION' in labels else 0
             it['blocks'].insert(pos, blk_new)
 
+# intro: replace the source's verification-scope note (specifics were removed from the guide)
+for it in items:
+    if it['kind'] != 'intro': continue
+    for b in it['blocks']:
+        for e in b['content']:
+            if e['type'] == 'p' and 'independently verified' in e['text']:
+                e['text'] = 'نطاق التحقق: الشرح مبني على الـdeck المرفقة. آليات الـMCP وبعض تفاصيل الـproducts اتراجعت بمصادر رسمية، بروابط [R1] إلى [R11] جنب الفكرة. أسماء الـmodels والتواريخ والأسعار والأرقام اللي ماقدرناش نتأكد منها اتشالت من الشرح، والفكرة نفسها فضلت زي ما هي.'
+
 # references: "[Rn] Title" paragraph followed by a URL paragraph
 for it in items:
     if it['kind'] != 'refs': continue
