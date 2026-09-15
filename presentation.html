@@ -675,126 +675,6 @@ pre .k{ color:#FB923C; }
 </section>
 
 <!-- 14 AGENTS.MD -->
-<section class="slide tight">
-  <div class="topbar"><span>Practice</span><span class="sec">05 · AGENTS.md</span></div>
-  <h2>AGENTS.md: the de facto standard, usually done badly</h2>
-  <p class="deck-sub">A study of 466 open-source projects accepted to MSR 2026 scanned 10,000 active repositories: only about 5% had any AI context file, and half of those were never updated after the first commit.</p>
-  <div class="body">
-    <div class="grid2" style="gap:26px;">
-      <div>
-        <ul class="bullets">
-          <li><b>Descriptive</b> — where things live, what the project is.</li>
-          <li><b>Prescriptive</b> — the workflow to follow: build commands, commit format, review steps.</li>
-          <li><b>Prohibitive</b> — hard boundaries: never edit generated files, never push to main.</li>
-          <li><b>Explanatory</b> — why a rule exists, so the agent generalises correctly.</li>
-          <li><b>Conditional</b> — what to do in specific situations.</li>
-        </ul>
-        <div class="callout" style="margin-top:16px;">Every line should map to <b>a failure you have actually seen</b>. A blank or copy-pasted file is worse than none, because it sets the agent's expectations wrongly.</div>
-        <p style="font-size:13px; color:var(--muted); margin-top:16px; line-height:1.5;">Keep it at the repository root, commit it, and treat it as code: when a rule stops being true, the file is wrong and the agent will act on the wrong rule. The most common sections across the study were conventions, contribution rules and architecture.</p>
-      </div>
-      <div>
-<pre><span class="c"># AGENTS.md</span>
-
-<span class="k">## Project</span>
-Odoo 18 addons for pharmacy retail. Python 3.11,
-Postgres 16. Modules live in <span class="k">addons/</span>.
-
-<span class="k">## Commands</span>
-Test:   pytest -q addons/&lt;module&gt;/tests
-Lint:   ruff check . &amp;&amp; pylint-odoo addons/
-Run:    ./odoo-bin -c dev.conf -u &lt;module&gt;
-
-<span class="k">## Rules</span>
-- Never edit files under <span class="k">*/migrations/</span>.
-- Never push to <span class="k">main</span>. Branch: feat/&lt;ticket&gt;.
-- XML views: keep xpath, never replace whole arch.
-- Every model field change needs a migration
-  script — we broke production twice on this.
-
-<span class="k">## Definition of done</span>
-Tests pass, ruff clean, migration written,
-PR body cites the spec file.</pre>
-      </div>
-    </div>
-  </div>
-  <div class="pagenum">24</div>
-</section>
-
-<!-- 15 SPEC DRIVEN -->
-<section class="slide">
-  <div class="topbar"><span>Practice</span><span class="sec">05 · Spec-driven development</span></div>
-  <h2>Vibe-code the prototype. Spec-drive everything that ships.</h2>
-  <p class="deck-sub">Spec-driven development became practical only once regenerating an implementation from a description got cheap. The spec, not the code, becomes the durable artefact.</p>
-  <div class="body">
-    <div class="flowline" style="margin-bottom:22px;">
-      <div class="step"><span class="s">01</span><h4>Specify</h4><p>Requirements and acceptance criteria, in a committed file</p></div>
-      <div class="arrow">→</div>
-      <div class="step"><span class="s">02</span><h4>Clarify</h4><p>Let the agent surface ambiguity before it guesses</p></div>
-      <div class="arrow">→</div>
-      <div class="step"><span class="s">03</span><h4>Plan</h4><p>Architecture, data model, API contracts, migration path</p></div>
-      <div class="arrow">→</div>
-      <div class="step"><span class="s">04</span><h4>Tasks</h4><p>Atomic units with one objective and an acceptance check</p></div>
-      <div class="arrow">→</div>
-      <div class="step"><span class="s">05</span><h4>Verify</h4><p>Does the output satisfy the criteria? Review against the spec</p></div>
-    </div>
-    <div class="grid2">
-      <div class="card"><h3>The constitution file</h3><p>One place for project rules every change must respect — dependency policy, architectural boundaries, security requirements — consulted by each workflow step instead of restated in every spec. GitHub Spec Kit is the MIT-licensed default if we want structure without buying a product; it installs into an existing agent rather than replacing it.</p></div>
-      <div class="card"><h3>Habits that make it stick</h3><p>Cite the spec in commits and PR bodies. Treat specs as durable docs that outlive the generated code. Use pre-flight checklists for security, accessibility and observability. A good task list reads like something a junior engineer could execute — which is roughly what an agent is.</p></div>
-    </div>
-  </div>
-  <div class="pagenum">25</div>
-</section>
-
-<!-- 16 MCP / SKILLS -->
-<section class="slide tight">
-  <div class="topbar"><span>Practice</span><span class="sec">05 · Plumbing</span></div>
-  <h2>MCP, skills, subagents, hooks</h2>
-  <p class="deck-sub">Four mechanisms. Together they are the difference between an agent that guesses about your system and one that can look.</p>
-  <div class="body">
-    <div class="grid2" style="margin-bottom:20px;">
-      <div class="card"><span class="tag">Connect</span><h3>MCP — Model Context Protocol</h3><p>The standard way to expose tools and data to an agent. Datadog's server went GA in March 2026 for live logs, metrics and traces inside Claude Code, Cursor, Codex and Copilot; Chrome DevTools MCP gives agents real page inspection and debugging.</p></div>
-      <div class="card"><span class="tag">Reuse</span><h3>Skills</h3><p>A <code>SKILL.md</code> is a procedure the agent loads when relevant — house style, review checklist, deployment runbook. The format was adopted by Codex CLI as an open standard, and marketplaces now ship packs spanning multiple harnesses.</p></div>
-      <div class="card"><span class="tag">Scale</span><h3>Subagents &amp; parallelism</h3><p>Isolated contexts for scoped jobs — scan a migration, generate tests, review a diff. Combined with git worktrees this is how teams run several agents without them colliding.</p></div>
-      <div class="card"><span class="tag">Enforce</span><h3>Hooks</h3><p>Deterministic checks the agent cannot talk its way past: run the linter before "done", block writes to protected paths, require the test suite to be green. Guardrails belong in code, not in prose.</p></div>
-    </div>
-    <div class="callout">One measured example of what connection buys: a cross-file refactor that took <b>96 tool calls and 84 minutes</b> on a baseline setup took <b>5 tool calls and 4.4 minutes</b> once the agent had MCP access to code intelligence.</div>
-  </div>
-  <div class="pagenum">26</div>
-</section>
-
-<!-- 17 OUR STACK -->
-<section class="slide">
-  <div class="topbar"><span>Practice</span><span class="sec">05 · Applied to our stack</span></div>
-  <h2>What this looks like on our codebases</h2>
-  <p class="deck-sub">Concrete mapping for the work we actually do — Odoo/Python, Spring Boot services, and the client integration projects.</p>
-  <div class="body">
-    <div class="grid2" style="gap:26px;">
-      <div>
-        <h3 style="font-size:15px; text-transform:uppercase; letter-spacing:.1em; color:var(--accent); margin-bottom:14px;">Do this</h3>
-        <ul class="bullets check">
-          <li><b>AGENTS.md per repository</b>, with the real <code>odoo-bin</code> / Maven commands, the module layout, and the migration rule we have broken before.</li>
-          <li><b>Hooks that run ruff, pylint-odoo and the test suite</b> before an agent is allowed to report success.</li>
-          <li><b>Read-only MCP access</b> to a staging Postgres replica, to Sentry/logs, and to code search. Read-only is the whole point.</li>
-          <li><b>Subagents for the boring, high-volume work</b>: version-migration scans, XML view diffs, test backfill, translation files.</li>
-          <li><b>A shared skill pack</b> for our conventions — QWeb patterns, ORM cache rules, invoice/RTL PDF pipeline, API contract style.</li>
-        </ul>
-      </div>
-      <div>
-        <h3 style="font-size:15px; text-transform:uppercase; letter-spacing:.1em; color:var(--danger); margin-bottom:14px;">Never this</h3>
-        <ul class="bullets cross">
-          <li><b>Production database credentials in an agent's context</b>, under any framing, including "just to read".</li>
-          <li><b>Client data pasted into a consumer chat tier</b> where the terms allow training on inputs.</li>
-          <li><b>Agent-authored migrations merged unread.</b> Migrations are the one place a subtle error is unrecoverable.</li>
-          <li><b>Auto-approved shell or git operations</b> on anything that can reach a remote.</li>
-          <li><b>Dependencies added by an agent without checking the package actually exists</b> and is the one it claims to be.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="pagenum">27</div>
-</section>
-
-<!-- 18 DIVIDER 04 -->
 <section class="slide divider">
   <div class="num">06</div>
   <h1>Automation<br>platforms</h1>
@@ -813,7 +693,7 @@ PR body cites the spec file.</pre>
     </div>
     <div class="dark-panel"><h3>The honest framing for a client conversation</h3><p>These are not toys, and they are not a replacement for engineering either. They are the right tool when the work is <b style="color:#fff">plumbing between systems that already have APIs</b>. They become the wrong tool when the logic gets deep enough that you are effectively programming in a visual editor with no tests and no version control.</p></div>
   </div>
-  <div class="pagenum">29</div>
+  <div class="pagenum">25</div>
 </section>
 <section class="slide tight">
   <div class="topbar"><span>Automation platforms</span><span class="sec">06 · Zapier</span></div>
@@ -843,7 +723,7 @@ PR body cites the spec file.</pre>
       </div>
     </div>
   </div>
-  <div class="pagenum">30</div>
+  <div class="pagenum">26</div>
 </section>
 <section class="slide tight">
   <div class="topbar"><span>Automation platforms</span><span class="sec">06 · Make</span></div>
@@ -873,7 +753,7 @@ PR body cites the spec file.</pre>
       </div>
     </div>
   </div>
-  <div class="pagenum">31</div>
+  <div class="pagenum">27</div>
 </section>
 <section class="slide tight">
   <div class="topbar"><span>Automation platforms</span><span class="sec">06 · n8n</span></div>
@@ -899,7 +779,7 @@ PR body cites the spec file.</pre>
       </div>
     </div>
   </div>
-  <div class="pagenum">32</div>
+  <div class="pagenum">28</div>
 </section>
 <section class="slide tight denser">
   <div class="topbar"><span>Automation platforms</span><span class="sec">06 · Side by side</span></div>
@@ -919,7 +799,7 @@ PR body cites the spec file.</pre>
       </tbody>
     </table>
   </div>
-  <div class="pagenum">33</div>
+  <div class="pagenum">29</div>
 </section>
 <section class="slide tight">
   <div class="topbar"><span>Automation platforms</span><span class="sec">06 · The cost math</span></div>
@@ -937,7 +817,7 @@ PR body cites the spec file.</pre>
     </div>
     <div class="callout" style="margin-top:16px;">Usage pricing does not get decided, it <b>creeps</b>. A client starts delighted at twenty dollars a month and is annoyed at four hundred eighteen months later, having approved no single increase. Model the volume at the proposal stage, not after.</div>
   </div>
-  <div class="pagenum">34</div>
+  <div class="pagenum">30</div>
 </section>
 <section class="slide tight">
   <div class="topbar"><span>Automation platforms</span><span class="sec">06 · Our position</span></div>
@@ -954,7 +834,7 @@ PR body cites the spec file.</pre>
       <div class="callout">Tie this back to section 05: these platforms are how you build <b>level one and level two</b>. They are the right home for deterministic plumbing with a reasoning step dropped in. When a client asks for level three — a goal-seeking agent running their business — that is a different conversation, and section 09 is why.</div>
     </div>
   </div>
-  <div class="pagenum">35</div>
+  <div class="pagenum">31</div>
 </section>
 <section class="slide divider">
   <div class="num">07</div>
@@ -976,7 +856,7 @@ PR body cites the spec file.</pre>
     </div>
     <div class="dark-panel"><h3>Why this matters for a small team</h3><p>An amplifier multiplies whatever is already there. Strong foundations — tests, CI, review discipline, observability — get multiplied. So do weak ones. DORA's ROI work makes the same point: the return depends on <b style="color:#fff">organisational systems, not on which tool you bought</b>.</p></div>
   </div>
-  <div class="pagenum">37</div>
+  <div class="pagenum">33</div>
 </section>
 
 <!-- 20 TELEMETRY -->
@@ -994,7 +874,7 @@ PR body cites the spec file.</pre>
     <div class="callout" style="margin-bottom:16px;"><b>31% more pull requests are now merging with no review at all.</b> That single number is the mechanism behind most of the others, and it is the one we can control directly.</div>
     <p style="font-size:13px; color:var(--muted); line-height:1.5;">Read these as a warning about process, not about the tools. The teams that avoided this pattern did so by capping PR size, keeping a human gate on every merge, and instrumenting the pipeline before scaling usage — not by using AI less.</p>
   </div>
-  <div class="pagenum">38</div>
+  <div class="pagenum">34</div>
 </section>
 
 <!-- 21 SECURITY -->
@@ -1024,7 +904,7 @@ PR body cites the spec file.</pre>
       </div>
     </div>
   </div>
-  <div class="pagenum">39</div>
+  <div class="pagenum">35</div>
 </section>
 
 <!-- 22 GUARDRAILS -->
@@ -1043,7 +923,7 @@ PR body cites the spec file.</pre>
       <div class="num-item" style="grid-column:span 2;"><div class="idx">07</div><div class="txt"><h3>Keep the skill</h3><p>Developers still have to be able to read, reason about and debug the code they ship. If someone cannot explain why a diff works, it does not merge — this is a competence requirement, not a policy preference, and it is the one that protects us in five years.</p></div></div>
     </div>
   </div>
-  <div class="pagenum">40</div>
+  <div class="pagenum">36</div>
 </section>
 
 <!-- 23 30/60/90 -->
@@ -1079,7 +959,7 @@ PR body cites the spec file.</pre>
       </div>
     </div>
   </div>
-  <div class="pagenum">41</div>
+  <div class="pagenum">37</div>
 </section>
 
 <!-- 24 METRICS -->
@@ -1100,7 +980,7 @@ PR body cites the spec file.</pre>
     </table>
     <div class="callout" style="margin-top:20px;">Take the baseline <b>before</b> the rollout, not after. Without a day-zero snapshot, every argument about whether this is working becomes an argument about vibes.</div>
   </div>
-  <div class="pagenum">42</div>
+  <div class="pagenum">38</div>
 </section>
 
 <!-- 25 SKILLS -->
@@ -1119,7 +999,7 @@ PR body cites the spec file.</pre>
     </div>
     <div class="callout" style="margin-top:22px;">DORA's research with students found something worth borrowing: the people who benefit most set <b>their own guardrails</b>, treating AI as a support tool rather than a replacement for understanding. Dependence is a real risk and it is self-inflicted.</div>
   </div>
-  <div class="pagenum">43</div>
+  <div class="pagenum">39</div>
 </section>
 
 <!-- 26 DIVIDER 05 -->
@@ -1146,7 +1026,7 @@ PR body cites the spec file.</pre>
       <p>The same engine runs in the terminal, in VS Code and JetBrains, in a desktop app, in the browser, on a phone, inside Slack, and inside GitHub or GitLab pipelines. A project's configuration is written once and applies on every one of them, so a team is not maintaining five different setups.</p>
     </div>
   </div>
-  <div class="pagenum">45</div>
+  <div class="pagenum">41</div>
 </section>
 
 <!-- 28 WHAT IT DOES -->
@@ -1167,7 +1047,7 @@ PR body cites the spec file.</pre>
     </div>
     <div class="callout">Notice what is not on this list: <b>deciding what to build.</b> Every item here is execution. The scarce judgement — what deserves building at all — stays exactly where it was.</div>
   </div>
-  <div class="pagenum">46</div>
+  <div class="pagenum">42</div>
 </section>
 
 <!-- 29 HOW A TASK RUNS -->
@@ -1192,7 +1072,7 @@ PR body cites the spec file.</pre>
       <div class="card"><h3>And the one resource that runs out</h3><p>Each session has a working memory that holds the conversation and everything read into it. Quality degrades as it fills. Good operators reset between unrelated tasks; poor ones let one session sprawl across five topics and then wonder why the output got worse. This is a training issue, not a tooling one.</p></div>
     </div>
   </div>
-  <div class="pagenum">47</div>
+  <div class="pagenum">43</div>
 </section>
 
 <!-- 30 FEATURES -->
@@ -1214,7 +1094,7 @@ PR body cites the spec file.</pre>
     </table>
     <div class="callout" style="margin-top:14px;">The order matters. Start with project memory; add each of the others only when a specific, repeated annoyance calls for it. Teams that configure everything up front mostly build things they never use.</div>
   </div>
-  <div class="pagenum">48</div>
+  <div class="pagenum">44</div>
 </section>
 
 <!-- 31 SKILLS A -->
@@ -1253,7 +1133,7 @@ PR body cites the spec file.</pre>
     </div>
     <div class="callout">Two things worth knowing commercially: skills follow the <b>Agent Skills open standard</b>, so a skill written with only the portable fields also works in Claude apps, the Claude Developer Platform, and Codex CLI — we are not writing lock-in. And Claude Code ships useful ones out of the box: <code>/code-review</code>, <code>/debug</code>, <code>/verify</code>, <code>/batch</code>, <code>/doctor</code>.</div>
   </div>
-  <div class="pagenum">49</div>
+  <div class="pagenum">45</div>
 </section>
 
 <!-- 32 SKILLS B -->
@@ -1287,7 +1167,7 @@ PR body cites the spec file.</pre>
     </div>
     <div class="callout"><b>One governance point for a security review:</b> a skill committed to a repository can grant itself broad tool access through <code>allowed-tools</code>, and that grant is not gated by trusting the workspace. Review the skills in any repository — including a client's — before running an agent inside it.</div>
   </div>
-  <div class="pagenum">50</div>
+  <div class="pagenum">46</div>
 </section>
 
 <!-- 33 MCP A -->
@@ -1311,7 +1191,7 @@ PR body cites the spec file.</pre>
     </table>
     <div class="callout" style="margin-top:14px;">When the same server name exists at more than one scope, the most specific wins: local over project over user. That lets one developer point a shared server at a different endpoint without editing the committed file.</div>
   </div>
-  <div class="pagenum">51</div>
+  <div class="pagenum">47</div>
 </section>
 
 <!-- 34 MCP B -->
@@ -1343,7 +1223,7 @@ PR body cites the spec file.</pre>
       <div class="card" style="border-color:var(--danger);"><h3 style="color:var(--danger);">The rule that is not negotiable</h3><p>Everything an MCP tool returns is <b>untrusted input</b>. A ticket description, a log line or a web page can carry instructions aimed at the agent. Connect read-only, against staging replicas, with scoped credentials — never production write access.</p></div>
     </div>
   </div>
-  <div class="pagenum">52</div>
+  <div class="pagenum">48</div>
 </section>
 
 <!-- 35 WHERE VALUE LANDS -->
@@ -1364,7 +1244,7 @@ PR body cites the spec file.</pre>
       </tbody>
     </table>
   </div>
-  <div class="pagenum">53</div>
+  <div class="pagenum">49</div>
 </section>
 
 <!-- 32 SCALE -->
@@ -1383,7 +1263,7 @@ PR body cites the spec file.</pre>
       <div class="callout">Parallelism raises the ceiling on throughput and raises the stakes on review. Every guardrail on slide 42 becomes more important, not less, the moment a second agent starts working.</div>
     </div>
   </div>
-  <div class="pagenum">54</div>
+  <div class="pagenum">50</div>
 </section>
 
 <!-- 33 GOVERNANCE -->
@@ -1401,7 +1281,7 @@ PR body cites the spec file.</pre>
       <div class="num-item"><div class="idx">06</div><div class="txt"><h3>Data handling</h3><p>Deployment options for regulated work, including enterprise arrangements where session data is not retained. This is the slide to bring to a client security review.</p></div></div>
     </div>
   </div>
-  <div class="pagenum">55</div>
+  <div class="pagenum">51</div>
 </section>
 
 <!-- 34 COST -->
@@ -1432,7 +1312,7 @@ PR body cites the spec file.</pre>
     </div>
     <div class="callout">Track the number that matters: <b>spend per merged pull request</b>. Total spend rising while that number falls is a healthy signal. Total spend rising while it holds flat means we bought activity, not output.</div>
   </div>
-  <div class="pagenum">56</div>
+  <div class="pagenum">52</div>
 </section>
 
 <!-- 35 LIMITS -->
@@ -1449,7 +1329,7 @@ PR body cites the spec file.</pre>
       <div class="num-item" style="grid-column:span 2;"><div class="idx">05</div><div class="txt"><h3>Treating it as a headcount substitute</h3><p>It accelerates execution. It does not decide what to build, own a client relationship, judge an architectural trade-off with commercial consequences, or carry accountability when something breaks. Teams that plan around it replacing people get the amplifier effect from section 04 pointed at their weakest process — and find out which one that was.</p></div></div>
     </div>
   </div>
-  <div class="pagenum">57</div>
+  <div class="pagenum">53</div>
 </section>
 
 <!-- 36 ADOPTION -->
@@ -1468,7 +1348,7 @@ PR body cites the spec file.</pre>
       <div class="callout">Expect the first fortnight to look <b>slower</b>, not faster. People are learning to delegate, and the setup work has not paid back yet. Judging it at two weeks is how organisations abandon things that would have worked.</div>
     </div>
   </div>
-  <div class="pagenum">58</div>
+  <div class="pagenum">54</div>
 </section>
 
 <!-- 41 DIVIDER 06 -->
@@ -1495,7 +1375,7 @@ PR body cites the spec file.</pre>
       <p>Three reasons. They are the most-starred software on GitHub, so our developers are already reading about them. Clients in our market will ask for "an AI agent that runs my business over WhatsApp" and we need a credible answer. And the architecture they popularised — a persistent agent with memory, skills and scheduled autonomy — is the direction the whole field is moving, whoever ends up winning.</p>
     </div>
   </div>
-  <div class="pagenum">60</div>
+  <div class="pagenum">56</div>
 </section>
 
 <!-- 43 OPENCLAW WHAT -->
@@ -1515,7 +1395,7 @@ PR body cites the spec file.</pre>
       <div class="card"><h3>What made it famous</h3><p>A developer had it negotiate roughly $4,200 off a car purchase by managing the dealer email thread over several days. That story — an agent doing multi-day commercial work unsupervised — is what moved this category from curiosity to something businesses started asking about.</p></div>
     </div>
   </div>
-  <div class="pagenum">61</div>
+  <div class="pagenum">57</div>
 </section>
 
 <!-- 44 OPENCLAW HOW -->
@@ -1533,7 +1413,7 @@ PR body cites the spec file.</pre>
       <div class="num-item"><div class="idx">06</div><div class="txt"><h3>Full system access — by design</h3><p>The project states it plainly: read and write files, run shell commands, execute scripts, with full access or sandboxed as your choice. Most people leave the default. Hold that thought for slide 68.</p></div></div>
     </div>
   </div>
-  <div class="pagenum">62</div>
+  <div class="pagenum">58</div>
 </section>
 
 <!-- 45 HERMES WHAT -->
@@ -1553,7 +1433,7 @@ PR body cites the spec file.</pre>
       <div class="card"><h3>The unusual part</h3><p>It doubles as research infrastructure. Beyond automating tasks it can generate tool-use trajectories in parallel with checkpointing, and export them for fine-tuning and reinforcement-learning experiments. That is a real differentiator if a team ever wants to train on its own workflows.</p></div>
     </div>
   </div>
-  <div class="pagenum">63</div>
+  <div class="pagenum">59</div>
 </section>
 
 <!-- 46 HERMES LOOP -->
@@ -1576,7 +1456,7 @@ PR body cites the spec file.</pre>
       <div class="card"><h3>The honest caveat</h3><p>Independent reviewers report real constraints: tight memory limits, a context floor, and overhead from scheduled prompting. Automatic self-improvement is a genuinely hard problem and the claim is ahead of the evidence. Treat it as a promising direction, not a delivered capability.</p></div>
     </div>
   </div>
-  <div class="pagenum">64</div>
+  <div class="pagenum">60</div>
 </section>
 
 <!-- 47 COMPARISON -->
@@ -1597,7 +1477,7 @@ PR body cites the spec file.</pre>
       </tbody>
     </table>
   </div>
-  <div class="pagenum">65</div>
+  <div class="pagenum">61</div>
 </section>
 
 <!-- 48 SECURITY -->
@@ -1625,7 +1505,7 @@ PR body cites the spec file.</pre>
       </div>
     </div>
   </div>
-  <div class="pagenum">66</div>
+  <div class="pagenum">62</div>
 </section>
 
 <!-- 49 OUR POSITION -->
@@ -1657,7 +1537,7 @@ PR body cites the spec file.</pre>
     </div>
     <div class="callout">The commercial angle is real and worth naming: clients in our market <b>will</b> ask for this. Being the firm that can explain exactly why the naive version is dangerous — and then deliver a governed version instead — is a stronger position than either refusing outright or saying yes and finding out.</div>
   </div>
-  <div class="pagenum">67</div>
+  <div class="pagenum">63</div>
 </section>
 
 <!-- 50 SOURCES -->
@@ -1702,7 +1582,7 @@ PR body cites the spec file.</pre>
     </div>
     <div class="callout" style="margin-top:18px;">Figures from vendor launch materials are self-reported. Where a claim supports a recommendation in this deck, it is backed by an independent survey, an academic study, or third-party telemetry.</div>
   </div>
-  <div class="pagenum">68</div>
+  <div class="pagenum">64</div>
 </section>
 
 <script>
