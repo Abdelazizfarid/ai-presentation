@@ -781,61 +781,6 @@ pre .k{ color:#FB923C; }
   </div>
   <div class="pagenum">28</div>
 </section>
-<section class="slide tight denser">
-  <div class="topbar"><span>Automation platforms</span><span class="sec">06 · Side by side</span></div>
-  <h2>The comparison in one table</h2>
-  <p class="deck-sub">Prices are indicative entry points as of September 2026 and move regularly — confirm on the vendor's page before quoting anything.</p>
-  <div class="body">
-    <table>
-      <thead><tr><th style="width:17%"></th><th style="width:28%">Zapier</th><th style="width:28%">Make</th><th>n8n</th></tr></thead>
-      <tbody>
-        <tr><td class="name">Billing unit</td><td>Task — per step executed</td><td>Credit — per module executed</td><td>Execution — per workflow run, or nothing at all if self-hosted</td></tr>
-        <tr><td class="name">Entry price</td><td>~$20–30/mo for ~750 tasks</td><td>~$9–12/mo for ~10,000 credits</td><td>Self-host: server cost only. Cloud from roughly €24/mo</td></tr>
-        <tr><td class="name">Integrations</td><td>~7,000 — the widest available</td><td>Several thousand</td><td>~400–500 native, plus any API over HTTP</td></tr>
-        <tr><td class="name">AI &amp; agents</td><td>AI steps, Agents on a separate meter, MCP access</td><td>AI agents, AI toolkit, bring-your-own model key on higher tiers</td><td>Deepest native agent, memory and vector-store node set</td></tr>
-        <tr><td class="name">Self-hosting</td><td class="name" style="color:var(--danger);">None</td><td class="name" style="color:var(--danger);">None</td><td class="name" style="color:var(--green);">Yes — the whole product</td></tr>
-        <tr><td class="name">Code</td><td>Minimal</td><td>JavaScript / Python in a code module</td><td>JavaScript / Python inline in any node</td></tr>
-        <tr><td class="name">Who can build in it</td><td>Anyone, immediately</td><td>An operations person willing to learn a canvas</td><td>Someone semi-technical, comfortable with APIs and a server</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="pagenum">29</div>
-</section>
-<section class="slide tight">
-  <div class="topbar"><span>Automation platforms</span><span class="sec">06 · The cost math</span></div>
-  <h2>Why the same workflow costs wildly different amounts</h2>
-  <p class="deck-sub">The billing unit — not the headline price — is what determines the bill. Take one ordinary workflow: ten steps, running a thousand times a month.</p>
-  <div class="body">
-    <div class="grid3" style="margin-bottom:20px;">
-      <div class="stat"><div class="n">10,000</div><div class="l"><b>Zapier tasks.</b> Every step of every run is metered, so complexity multiplies directly into cost.</div></div>
-      <div class="stat"><div class="n">10,000</div><div class="l"><b>Make credits.</b> Same arithmetic — but the credits themselves cost roughly three to five times less.</div></div>
-      <div class="stat"><div class="n">1,000</div><div class="l"><b>n8n executions</b> on cloud, because the run is the unit, not the step. Self-hosted, the number is irrelevant.</div></div>
-    </div>
-    <div class="grid2" style="gap:22px;">
-      <div class="card" style="border-color:var(--accent);"><h3>The pattern to internalise</h3><p>Cost scales with <b>steps × runs</b> on Zapier and Make, and with <b>runs alone</b> on n8n cloud. So the more complex the workflow, the more sharply the three diverge. A simple two-step automation running occasionally is cheap everywhere. A fifteen-step scenario firing every few minutes is where the decision actually gets made.</p></div>
-      <div class="card"><h3>And the AI multiplier on top</h3><p>Model-powered steps are metered differently from ordinary ones on every platform, and on n8n your agent nodes bill straight through to your own model provider. Whatever the platform costs, <b>the model calls are a separate line item</b> — forecast them separately or the first invoice is a surprise.</p></div>
-    </div>
-    <div class="callout" style="margin-top:16px;">Usage pricing does not get decided, it <b>creeps</b>. A client starts delighted at twenty dollars a month and is annoyed at four hundred eighteen months later, having approved no single increase. Model the volume at the proposal stage, not after.</div>
-  </div>
-  <div class="pagenum">30</div>
-</section>
-<section class="slide tight">
-  <div class="topbar"><span>Automation platforms</span><span class="sec">06 · Our position</span></div>
-  <h2>How we should use these</h2>
-  <p class="deck-sub">This is a service line, not just a tooling choice. Clients in our market ask for exactly this work, and they ask for it by these names.</p>
-  <div class="body">
-    <div class="grid3" style="gap:20px; margin-bottom:20px;">
-      <div class="card" style="border-color:var(--accent);"><span class="tag">Default for delivery</span><h3>n8n, self-hosted</h3><p>Data stays in infrastructure we or the client control, there is no per-execution meter to argue about later, and the AI nodes cover the agentic patterns. The condition: get the commercial licence right before we host anything on a client's behalf.</p></div>
-      <div class="card"><span class="tag">When they want managed</span><h3>Make</h3><p>The client wants a platform they own the subscription to, with complex branching and no server to look after. Good value, genuinely capable, and someone non-technical on their side can maintain it after we hand over.</p></div>
-      <div class="card"><span class="tag">When breadth wins</span><h3>Zapier</h3><p>Low volume, a non-technical client, or a niche integration only Zapier supports. Do not fight it on price when the alternative is us writing a connector by hand.</p></div>
-    </div>
-    <div class="grid2" style="gap:22px;">
-      <div class="dark-panel"><h3>The commercial discipline</h3><p>Never quote a bespoke build for something that is four modules in Make. Quote the integration work honestly, and sell the part that is actually hard: <b style="color:#fff">the process design, the error handling, the edge cases, and keeping it alive.</b> That is where the value is, and it is the part a platform does not give anyone for free.</p></div>
-      <div class="callout">Tie this back to section 05: these platforms are how you build <b>level one and level two</b>. They are the right home for deterministic plumbing with a reasoning step dropped in. When a client asks for level three — a goal-seeking agent running their business — that is a different conversation, and section 09 is why.</div>
-    </div>
-  </div>
-  <div class="pagenum">31</div>
-</section>
 <section class="slide divider">
   <div class="num">07</div>
   <h1>Risk</h1>
@@ -856,7 +801,7 @@ pre .k{ color:#FB923C; }
     </div>
     <div class="dark-panel"><h3>Why this matters for a small team</h3><p>An amplifier multiplies whatever is already there. Strong foundations — tests, CI, review discipline, observability — get multiplied. So do weak ones. DORA's ROI work makes the same point: the return depends on <b style="color:#fff">organisational systems, not on which tool you bought</b>.</p></div>
   </div>
-  <div class="pagenum">33</div>
+  <div class="pagenum">30</div>
 </section>
 
 <!-- 20 TELEMETRY -->
@@ -874,7 +819,7 @@ pre .k{ color:#FB923C; }
     <div class="callout" style="margin-bottom:16px;"><b>31% more pull requests are now merging with no review at all.</b> That single number is the mechanism behind most of the others, and it is the one we can control directly.</div>
     <p style="font-size:13px; color:var(--muted); line-height:1.5;">Read these as a warning about process, not about the tools. The teams that avoided this pattern did so by capping PR size, keeping a human gate on every merge, and instrumenting the pipeline before scaling usage — not by using AI less.</p>
   </div>
-  <div class="pagenum">34</div>
+  <div class="pagenum">31</div>
 </section>
 
 <!-- 21 SECURITY -->
@@ -904,7 +849,7 @@ pre .k{ color:#FB923C; }
       </div>
     </div>
   </div>
-  <div class="pagenum">35</div>
+  <div class="pagenum">32</div>
 </section>
 
 <!-- 22 GUARDRAILS -->
@@ -923,7 +868,7 @@ pre .k{ color:#FB923C; }
       <div class="num-item" style="grid-column:span 2;"><div class="idx">07</div><div class="txt"><h3>Keep the skill</h3><p>Developers still have to be able to read, reason about and debug the code they ship. If someone cannot explain why a diff works, it does not merge — this is a competence requirement, not a policy preference, and it is the one that protects us in five years.</p></div></div>
     </div>
   </div>
-  <div class="pagenum">36</div>
+  <div class="pagenum">33</div>
 </section>
 
 <!-- 23 30/60/90 -->
@@ -959,7 +904,7 @@ pre .k{ color:#FB923C; }
       </div>
     </div>
   </div>
-  <div class="pagenum">37</div>
+  <div class="pagenum">34</div>
 </section>
 
 <!-- 24 METRICS -->
@@ -980,7 +925,7 @@ pre .k{ color:#FB923C; }
     </table>
     <div class="callout" style="margin-top:20px;">Take the baseline <b>before</b> the rollout, not after. Without a day-zero snapshot, every argument about whether this is working becomes an argument about vibes.</div>
   </div>
-  <div class="pagenum">38</div>
+  <div class="pagenum">35</div>
 </section>
 
 <!-- 25 SKILLS -->
@@ -999,7 +944,7 @@ pre .k{ color:#FB923C; }
     </div>
     <div class="callout" style="margin-top:22px;">DORA's research with students found something worth borrowing: the people who benefit most set <b>their own guardrails</b>, treating AI as a support tool rather than a replacement for understanding. Dependence is a real risk and it is self-inflicted.</div>
   </div>
-  <div class="pagenum">39</div>
+  <div class="pagenum">36</div>
 </section>
 
 <!-- 26 DIVIDER 05 -->
@@ -1026,7 +971,7 @@ pre .k{ color:#FB923C; }
       <p>The same engine runs in the terminal, in VS Code and JetBrains, in a desktop app, in the browser, on a phone, inside Slack, and inside GitHub or GitLab pipelines. A project's configuration is written once and applies on every one of them, so a team is not maintaining five different setups.</p>
     </div>
   </div>
-  <div class="pagenum">41</div>
+  <div class="pagenum">38</div>
 </section>
 
 <!-- 28 WHAT IT DOES -->
@@ -1047,7 +992,7 @@ pre .k{ color:#FB923C; }
     </div>
     <div class="callout">Notice what is not on this list: <b>deciding what to build.</b> Every item here is execution. The scarce judgement — what deserves building at all — stays exactly where it was.</div>
   </div>
-  <div class="pagenum">42</div>
+  <div class="pagenum">39</div>
 </section>
 
 <!-- 29 HOW A TASK RUNS -->
@@ -1072,7 +1017,7 @@ pre .k{ color:#FB923C; }
       <div class="card"><h3>And the one resource that runs out</h3><p>Each session has a working memory that holds the conversation and everything read into it. Quality degrades as it fills. Good operators reset between unrelated tasks; poor ones let one session sprawl across five topics and then wonder why the output got worse. This is a training issue, not a tooling one.</p></div>
     </div>
   </div>
-  <div class="pagenum">43</div>
+  <div class="pagenum">40</div>
 </section>
 
 <!-- 30 FEATURES -->
@@ -1094,7 +1039,7 @@ pre .k{ color:#FB923C; }
     </table>
     <div class="callout" style="margin-top:14px;">The order matters. Start with project memory; add each of the others only when a specific, repeated annoyance calls for it. Teams that configure everything up front mostly build things they never use.</div>
   </div>
-  <div class="pagenum">44</div>
+  <div class="pagenum">41</div>
 </section>
 
 <!-- 31 SKILLS A -->
@@ -1133,7 +1078,7 @@ pre .k{ color:#FB923C; }
     </div>
     <div class="callout">Two things worth knowing commercially: skills follow the <b>Agent Skills open standard</b>, so a skill written with only the portable fields also works in Claude apps, the Claude Developer Platform, and Codex CLI — we are not writing lock-in. And Claude Code ships useful ones out of the box: <code>/code-review</code>, <code>/debug</code>, <code>/verify</code>, <code>/batch</code>, <code>/doctor</code>.</div>
   </div>
-  <div class="pagenum">45</div>
+  <div class="pagenum">42</div>
 </section>
 
 <!-- 32 SKILLS B -->
@@ -1167,7 +1112,7 @@ pre .k{ color:#FB923C; }
     </div>
     <div class="callout"><b>One governance point for a security review:</b> a skill committed to a repository can grant itself broad tool access through <code>allowed-tools</code>, and that grant is not gated by trusting the workspace. Review the skills in any repository — including a client's — before running an agent inside it.</div>
   </div>
-  <div class="pagenum">46</div>
+  <div class="pagenum">43</div>
 </section>
 
 <!-- 33 MCP A -->
@@ -1191,7 +1136,7 @@ pre .k{ color:#FB923C; }
     </table>
     <div class="callout" style="margin-top:14px;">When the same server name exists at more than one scope, the most specific wins: local over project over user. That lets one developer point a shared server at a different endpoint without editing the committed file.</div>
   </div>
-  <div class="pagenum">47</div>
+  <div class="pagenum">44</div>
 </section>
 
 <!-- 34 MCP B -->
@@ -1223,7 +1168,7 @@ pre .k{ color:#FB923C; }
       <div class="card" style="border-color:var(--danger);"><h3 style="color:var(--danger);">The rule that is not negotiable</h3><p>Everything an MCP tool returns is <b>untrusted input</b>. A ticket description, a log line or a web page can carry instructions aimed at the agent. Connect read-only, against staging replicas, with scoped credentials — never production write access.</p></div>
     </div>
   </div>
-  <div class="pagenum">48</div>
+  <div class="pagenum">45</div>
 </section>
 
 <!-- 35 WHERE VALUE LANDS -->
@@ -1244,7 +1189,7 @@ pre .k{ color:#FB923C; }
       </tbody>
     </table>
   </div>
-  <div class="pagenum">49</div>
+  <div class="pagenum">46</div>
 </section>
 
 <!-- 32 SCALE -->
@@ -1263,7 +1208,7 @@ pre .k{ color:#FB923C; }
       <div class="callout">Parallelism raises the ceiling on throughput and raises the stakes on review. Every guardrail on slide 42 becomes more important, not less, the moment a second agent starts working.</div>
     </div>
   </div>
-  <div class="pagenum">50</div>
+  <div class="pagenum">47</div>
 </section>
 
 <!-- 33 GOVERNANCE -->
@@ -1281,7 +1226,7 @@ pre .k{ color:#FB923C; }
       <div class="num-item"><div class="idx">06</div><div class="txt"><h3>Data handling</h3><p>Deployment options for regulated work, including enterprise arrangements where session data is not retained. This is the slide to bring to a client security review.</p></div></div>
     </div>
   </div>
-  <div class="pagenum">51</div>
+  <div class="pagenum">48</div>
 </section>
 
 <!-- 34 COST -->
@@ -1312,7 +1257,7 @@ pre .k{ color:#FB923C; }
     </div>
     <div class="callout">Track the number that matters: <b>spend per merged pull request</b>. Total spend rising while that number falls is a healthy signal. Total spend rising while it holds flat means we bought activity, not output.</div>
   </div>
-  <div class="pagenum">52</div>
+  <div class="pagenum">49</div>
 </section>
 
 <!-- 35 LIMITS -->
@@ -1329,7 +1274,7 @@ pre .k{ color:#FB923C; }
       <div class="num-item" style="grid-column:span 2;"><div class="idx">05</div><div class="txt"><h3>Treating it as a headcount substitute</h3><p>It accelerates execution. It does not decide what to build, own a client relationship, judge an architectural trade-off with commercial consequences, or carry accountability when something breaks. Teams that plan around it replacing people get the amplifier effect from section 04 pointed at their weakest process — and find out which one that was.</p></div></div>
     </div>
   </div>
-  <div class="pagenum">53</div>
+  <div class="pagenum">50</div>
 </section>
 
 <!-- 36 ADOPTION -->
@@ -1348,7 +1293,7 @@ pre .k{ color:#FB923C; }
       <div class="callout">Expect the first fortnight to look <b>slower</b>, not faster. People are learning to delegate, and the setup work has not paid back yet. Judging it at two weeks is how organisations abandon things that would have worked.</div>
     </div>
   </div>
-  <div class="pagenum">54</div>
+  <div class="pagenum">51</div>
 </section>
 
 <!-- 41 DIVIDER 06 -->
@@ -1375,7 +1320,7 @@ pre .k{ color:#FB923C; }
       <p>Three reasons. They are the most-starred software on GitHub, so our developers are already reading about them. Clients in our market will ask for "an AI agent that runs my business over WhatsApp" and we need a credible answer. And the architecture they popularised — a persistent agent with memory, skills and scheduled autonomy — is the direction the whole field is moving, whoever ends up winning.</p>
     </div>
   </div>
-  <div class="pagenum">56</div>
+  <div class="pagenum">53</div>
 </section>
 
 <!-- 43 OPENCLAW WHAT -->
@@ -1395,7 +1340,7 @@ pre .k{ color:#FB923C; }
       <div class="card"><h3>What made it famous</h3><p>A developer had it negotiate roughly $4,200 off a car purchase by managing the dealer email thread over several days. That story — an agent doing multi-day commercial work unsupervised — is what moved this category from curiosity to something businesses started asking about.</p></div>
     </div>
   </div>
-  <div class="pagenum">57</div>
+  <div class="pagenum">54</div>
 </section>
 
 <!-- 44 OPENCLAW HOW -->
@@ -1413,7 +1358,7 @@ pre .k{ color:#FB923C; }
       <div class="num-item"><div class="idx">06</div><div class="txt"><h3>Full system access — by design</h3><p>The project states it plainly: read and write files, run shell commands, execute scripts, with full access or sandboxed as your choice. Most people leave the default. Hold that thought for slide 68.</p></div></div>
     </div>
   </div>
-  <div class="pagenum">58</div>
+  <div class="pagenum">55</div>
 </section>
 
 <!-- 45 HERMES WHAT -->
@@ -1433,7 +1378,7 @@ pre .k{ color:#FB923C; }
       <div class="card"><h3>The unusual part</h3><p>It doubles as research infrastructure. Beyond automating tasks it can generate tool-use trajectories in parallel with checkpointing, and export them for fine-tuning and reinforcement-learning experiments. That is a real differentiator if a team ever wants to train on its own workflows.</p></div>
     </div>
   </div>
-  <div class="pagenum">59</div>
+  <div class="pagenum">56</div>
 </section>
 
 <!-- 46 HERMES LOOP -->
@@ -1456,7 +1401,7 @@ pre .k{ color:#FB923C; }
       <div class="card"><h3>The honest caveat</h3><p>Independent reviewers report real constraints: tight memory limits, a context floor, and overhead from scheduled prompting. Automatic self-improvement is a genuinely hard problem and the claim is ahead of the evidence. Treat it as a promising direction, not a delivered capability.</p></div>
     </div>
   </div>
-  <div class="pagenum">60</div>
+  <div class="pagenum">57</div>
 </section>
 
 <!-- 47 COMPARISON -->
@@ -1477,7 +1422,7 @@ pre .k{ color:#FB923C; }
       </tbody>
     </table>
   </div>
-  <div class="pagenum">61</div>
+  <div class="pagenum">58</div>
 </section>
 
 <!-- 48 SECURITY -->
@@ -1505,7 +1450,7 @@ pre .k{ color:#FB923C; }
       </div>
     </div>
   </div>
-  <div class="pagenum">62</div>
+  <div class="pagenum">59</div>
 </section>
 
 <!-- 49 OUR POSITION -->
@@ -1537,7 +1482,7 @@ pre .k{ color:#FB923C; }
     </div>
     <div class="callout">The commercial angle is real and worth naming: clients in our market <b>will</b> ask for this. Being the firm that can explain exactly why the naive version is dangerous — and then deliver a governed version instead — is a stronger position than either refusing outright or saying yes and finding out.</div>
   </div>
-  <div class="pagenum">63</div>
+  <div class="pagenum">60</div>
 </section>
 
 <!-- 50 SOURCES -->
@@ -1582,7 +1527,7 @@ pre .k{ color:#FB923C; }
     </div>
     <div class="callout" style="margin-top:18px;">Figures from vendor launch materials are self-reported. Where a claim supports a recommendation in this deck, it is backed by an independent survey, an academic study, or third-party telemetry.</div>
   </div>
-  <div class="pagenum">64</div>
+  <div class="pagenum">61</div>
 </section>
 
 <script>
