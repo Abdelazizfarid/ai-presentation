@@ -17,6 +17,8 @@ def item_id_of(it):
     return {'intro': 'intro', 'glossary': 'glossary', 'refs': 'references'}.get(it['kind'], 'misc')
 
 
+SKIP_SLIDES = {16}      # "Reading Benchmarks" removed from the deck too
+
 # ---------------------------------------------------------------- assemble items
 items = []
 cur = blk = None
@@ -43,7 +45,12 @@ for page in pages:
         c = l['cls']
         if c == 'kicker':
             m = re.match(r'SLIDE (\d+) / (.+)', l['text'])
-            if m: new_item('slide', num=int(m.group(1)), section=m.group(2).strip(), kicker=l['text'])
+            if m:
+                num = int(m.group(1))
+                if num in SKIP_SLIDES:
+                    cur = dict(kind='skip', title='', blocks=[]); blk = None; last = None; continue
+                shift = sum(1 for k in SKIP_SLIDES if k < num)
+                new_item('slide', num=num - shift, section=m.group(2).strip(), kicker=f'SLIDE {num - shift:02d} / {m.group(2).strip()}')
             elif l['text'].startswith('MCP DEEP DIVE'):
                 new_item('mcp', num=l['text'].split('/')[-1].strip(), section='MCP DEEP DIVE', kicker=l['text'])
             elif l['text'].startswith('READING GUIDE'): new_item('intro', section='READING GUIDE', kicker=l['text'])
@@ -84,7 +91,17 @@ for page in pages:
 
 # real-life examples (content/real_examples.json: id -> Arabic text), inserted after EXAMPLE
 import os
-REAL = json.load(open('content/real_examples.json')) if os.path.exists('content/real_examples.json') else {}
+def remap(d):
+    out = {}
+    for k, v in d.items():
+        m = re.match(r'slide-(\d+)$', k)
+        if m:
+            n = int(m.group(1))
+            if n in SKIP_SLIDES: continue
+            k = f'slide-{n - sum(1 for x in SKIP_SLIDES if x < n):02d}'
+        out[k] = v
+    return out
+REAL = remap(json.load(open('content/real_examples.json'))) if os.path.exists('content/real_examples.json') else {}
 for it in items:
     if it['kind'] not in ('slide', 'mcp'): continue
     txt = REAL.get(item_id_of(it))
@@ -96,7 +113,7 @@ for it in items:
 
 # per-slide extras (content/extras.json: id -> [ {label, text} | {label, table:{header,rows}} ]); inserted after EXPLANATION.
 # an extra with a label that already exists on the slide REPLACES that block.
-EXTRAS = json.load(open('content/extras.json')) if os.path.exists('content/extras.json') else {}
+EXTRAS = remap(json.load(open('content/extras.json'))) if os.path.exists('content/extras.json') else {}
 for it in items:
     if it['kind'] not in ('slide', 'mcp'): continue
     for ex in EXTRAS.get(item_id_of(it), []):
