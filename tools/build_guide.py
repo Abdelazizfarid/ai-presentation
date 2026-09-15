@@ -17,7 +17,7 @@ def item_id_of(it):
     return {'intro': 'intro', 'glossary': 'glossary', 'refs': 'references'}.get(it['kind'], 'misc')
 
 
-SKIP_SLIDES = {16}      # "Reading Benchmarks" removed from the deck too
+SKIP_SLIDES = {13, 16}  # 'Context Windows and Token Pricing', 'Reading Benchmarks' removed from the deck too
 
 # ---------------------------------------------------------------- assemble items
 items = []
