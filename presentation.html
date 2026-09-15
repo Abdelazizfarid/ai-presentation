@@ -271,7 +271,7 @@ pre .k{ color:#FB923C; }
 <section class="slide tight">
   <div class="topbar"><span>Contents</span><span class="sec">Overview</span></div>
   <h2>What this briefing covers</h2>
-  <p class="deck-sub">Seven parts, building from what the technology actually is, through how to work with it, to how we use it day to day.</p>
+  <p class="deck-sub">Six parts, building from what the technology actually is, through how to work with it, to the platforms we can use.</p>
   <div class="body">
     <div class="grid3" style="gap:20px 26px;">
       <div class="num-item"><div class="idx">01</div><div class="txt"><h3>Understanding intelligence</h3><p>What human and artificial intelligence each are, how they differ, and why capability is jagged.</p></div></div>
@@ -280,7 +280,6 @@ pre .k{ color:#FB923C; }
       <div class="num-item"><div class="idx">04</div><div class="txt"><h3>Prompt engineering</h3><p>The six building blocks, the six common mistakes, and how to refine until a prompt is reliable.</p></div></div>
       <div class="num-item"><div class="idx">05</div><div class="txt"><h3>Working with agents</h3><p>Automation versus agentic workflow versus agent, which to build, and context engineering.</p></div></div>
       <div class="num-item"><div class="idx">06</div><div class="txt"><h3>Automation platforms</h3><p>Zapier, Make and n8n: what each is and why they matter to us.</p></div></div>
-      <div class="num-item"><div class="idx">07</div><div class="txt"><h3>Claude Code in practice</h3><p>A worker you delegate to, how one piece of work moves, and its features in business terms.</p></div></div>
     </div>
   </div>
   <div class="pagenum">2</div>
@@ -779,77 +778,3 @@ pre .k{ color:#FB923C; }
   </div>
   <div class="pagenum">28</div>
 </section>
-<section class="slide divider">
-  <div class="num">08</div>
-  <h1>Claude Code<br>in practice</h1>
-  <p class="d-sub">What the tool actually is, what it can do for the business, how teams put it to work, and what it costs to control.</p>
-  <div class="rule"></div>
-</section>
-
-<!-- 27 WHAT IT IS -->
-<section class="slide tight">
-  <div class="topbar"><span>Claude Code</span><span class="sec">08 · What it is</span></div>
-  <h2>Not an autocomplete. A worker you delegate to.</h2>
-  <p class="deck-sub">The difference that matters commercially: a chatbot answers a question and waits. Claude Code reads the codebase, makes the change, runs the tests, reads the failure, and fixes it — while someone watches, redirects, or steps away entirely.</p>
-  <div class="body">
-    <div class="grid3" style="margin-bottom:20px;">
-      <div class="card"><span class="tag">Input</span><h3>A described outcome</h3><p>Someone says what they want in plain language — a feature, a bug symptom, a migration, a report. No prompt engineering ceremony required.</p></div>
-      <div class="card"><span class="tag">Work</span><h3>It explores and executes</h3><p>It finds the relevant files itself, proposes a plan, edits across the codebase, runs commands, and verifies against a check you gave it.</p></div>
-      <div class="card" style="border-color:var(--accent);"><span class="tag">Output</span><h3>Reviewable work, not text</h3><p>A branch, a commit, a pull request, a passing test suite, a report. Things a person reviews and merges — the normal artefacts of your process.</p></div>
-    </div>
-    <div class="dark-panel">
-      <h3>It works where people already work</h3>
-      <p>The same engine runs in the terminal, in VS Code and JetBrains, in a desktop app, in the browser, on a phone, inside Slack, and inside GitHub or GitLab pipelines. A project's configuration is written once and applies on every one of them, so a team is not maintaining five different setups.</p>
-    </div>
-  </div>
-  <div class="pagenum">30</div>
-</section>
-
-<!-- 28 WHAT IT DOES -->
-<section class="slide tight">
-  <div class="topbar"><span>Claude Code</span><span class="sec">08 · How work flows</span></div>
-  <h2>How one piece of work actually moves</h2>
-  <p class="deck-sub">Understanding this shape is what lets a manager tell a well-run session from an expensive one.</p>
-  <div class="body">
-    <div class="flowline" style="margin-bottom:20px;">
-      <div class="step"><span class="s">01</span><h4>Explore</h4><p>Reads the relevant code and answers questions. Changes nothing yet.</p></div>
-      <div class="arrow">→</div>
-      <div class="step"><span class="s">02</span><h4>Plan</h4><p>Writes an approach the developer reads and edits <i>before</i> any code is written.</p></div>
-      <div class="arrow">→</div>
-      <div class="step"><span class="s">03</span><h4>Implement</h4><p>Works against its own approved plan, across as many files as the change needs.</p></div>
-      <div class="arrow">→</div>
-      <div class="step"><span class="s">04</span><h4>Verify</h4><p>Runs the tests or build, reads the result, and iterates until the check passes.</p></div>
-      <div class="arrow">→</div>
-      <div class="step"><span class="s">05</span><h4>Hand off</h4><p>Commit, branch, pull request. A human reviews and merges.</p></div>
-    </div>
-    <div class="grid2" style="gap:22px;">
-      <div class="card" style="border-color:var(--accent);"><h3>The one thing to insist on</h3><p>Step 04 is not optional. Without a check it can run — a test suite, a build, a screenshot comparison — "looks finished" is the only signal available, and the person becomes the verification loop. Give it something that returns pass or fail and the loop closes by itself, unattended.</p></div>
-      <div class="card"><h3>And the one resource that runs out</h3><p>Each session has a working memory that holds the conversation and everything read into it. Quality degrades as it fills. Good operators reset between unrelated tasks; poor ones let one session sprawl across five topics and then wonder why the output got worse. This is a training issue, not a tooling one.</p></div>
-    </div>
-  </div>
-  <div class="pagenum">31</div>
-</section>
-
-<!-- 30 FEATURES -->
-<section class="slide tight denser">
-  <div class="topbar"><span>Claude Code</span><span class="sec">08 · The feature set</span></div>
-  <h2>Six features, in business terms</h2>
-  <p class="deck-sub">These turn a generic tool into something that knows how <i>our</i> company builds software. This is where the compounding value is.</p>
-  <div class="body">
-    <table>
-      <thead><tr><th style="width:17%">Feature</th><th style="width:31%">What it is</th><th>Why it matters commercially</th></tr></thead>
-      <tbody>
-        <tr><td class="name">Project memory<span class="vendor">CLAUDE.md</span></td><td>A file in the repository holding conventions, commands and hard rules, read at the start of every session</td><td>Institutional knowledge stops living in senior developers' heads. It is versioned, reviewed, and inherited by every new joiner.</td></tr>
-        <tr><td class="name">Skills</td><td>Reusable playbooks and reference material, triggered by name or applied automatically</td><td>The deployment checklist, the review standard, the house API style — captured once and applied consistently instead of re-explained.</td></tr>
-        <tr><td class="name">Subagents</td><td>Isolated workers that go away, do a job, and report back a summary</td><td>Parallelism and a genuine second opinion. A reviewer that never saw the reasoning behind a change evaluates it on its own terms.</td></tr>
-        <tr><td class="name">Connections<span class="vendor">MCP</span></td><td>A standard way to plug in the systems the code does not contain</td><td>Ticket systems, design files, databases, logs, monitoring. It stops people copying data between tabs, which is where hours quietly go.</td></tr>
-        <tr><td class="name">Hooks</td><td>Rules enforced automatically at set moments, not requested politely</td><td>Policy that holds. "Never touch production config" as an instruction is a request; as a hook it is a guarantee.</td></tr>
-        <tr><td class="name">Plugins</td><td>A bundle of the above, installable in one step</td><td>How a working setup spreads from one team to the whole organisation without anyone reconfiguring by hand.</td></tr>
-      </tbody>
-    </table>
-    <div class="callout" style="margin-top:14px;">The order matters. Start with project memory; add each of the others only when a specific, repeated annoyance calls for it. Teams that configure everything up front mostly build things they never use.</div>
-  </div>
-  <div class="pagenum">32</div>
-</section>
-
-<!-- 31 SKILLS A -->
