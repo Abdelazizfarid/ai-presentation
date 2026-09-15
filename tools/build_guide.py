@@ -94,6 +94,24 @@ for it in items:
     pos = labels.index('EXAMPLE') + 1 if 'EXAMPLE' in labels else (labels.index('TAKEAWAY') if 'TAKEAWAY' in labels else len(labels))
     it['blocks'].insert(pos, blk_new)
 
+# per-slide extras (content/extras.json: id -> [ {label, text} | {label, table:{header,rows}} ]); inserted after EXPLANATION.
+# an extra with a label that already exists on the slide REPLACES that block.
+EXTRAS = json.load(open('content/extras.json')) if os.path.exists('content/extras.json') else {}
+for it in items:
+    if it['kind'] not in ('slide', 'mcp'): continue
+    for ex in EXTRAS.get(item_id_of(it), []):
+        if 'table' in ex:
+            content = [dict(type='table', header=True, rows=[list(reversed(ex['table']['header']))] + [list(reversed(r)) for r in ex['table']['rows']])]
+        else:
+            content = [dict(type='p', text=ex['text'], cls='body')]
+        blk_new = dict(label=ex['label'], content=content)
+        labels = [b['label'] for b in it['blocks']]
+        if ex['label'] in labels:
+            it['blocks'][labels.index(ex['label'])] = blk_new
+        else:
+            pos = labels.index('EXPLANATION') + 1 if 'EXPLANATION' in labels else 0
+            it['blocks'].insert(pos, blk_new)
+
 # references: "[Rn] Title" paragraph followed by a URL paragraph
 for it in items:
     if it['kind'] != 'refs': continue
