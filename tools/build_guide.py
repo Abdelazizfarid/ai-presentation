@@ -144,7 +144,7 @@ def item_id(it):
 
 
 SENT_END = re.compile(r'(?<=[.؟!])\s+(?=\S)')
-BULLET_LABELS = {'EXPLANATION', 'EXAMPLE', 'REAL-LIFE EXAMPLE', 'DETAILS', None}
+BULLET_LABELS = set()   # paragraphs, not bullets (user request)
 
 
 def sentences(text):
@@ -284,7 +284,7 @@ h1.sec .ar{font-size:17px;color:var(--muted);font-weight:500;margin-left:14px;di
 .lbl{display:flex;gap:10px;align-items:baseline;margin-bottom:4px}
 .lbl .en{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;color:var(--teal);font-weight:600}
 .lbl .ar{font-size:14px;color:var(--muted);font-weight:500}
-.blk p{margin:0 0 12px}
+.blk p{margin:0 0 12px;line-height:2.05;text-align:justify}
 .blk-real-life-example{background:#FBF4EE;border-inline-start:4px solid var(--accent);padding:14px 18px 4px;border-radius:6px}
 .blk-real-life-example .lbl .en{color:var(--accent)}
 .blk-takeaway{background:var(--tint);border-inline-start:4px solid var(--teal);padding:14px 18px 6px;border-radius:6px}
